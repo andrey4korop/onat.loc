@@ -11,10 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
 
-
-
-    
+/**
+ * Аутеризация, главная страница
+ */
+Route::get('/', function (){
+    return view('file');
 });
+//Route::get('/', 'Auth\LoginController@showLoginForm');
+//Route::get('/', 'Auth\LoginController@showLoginForm');
+Route::post('auto', 'FirstController@autorization')->name('auto');
+Auth::routes();
+
+
+/**
+ * Закрытый раздел
+ */
+Route::get('/home', 'HomeController@index');
+
