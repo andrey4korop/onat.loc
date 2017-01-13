@@ -15,12 +15,10 @@
 /**
  * Аутеризация, главная страница
  */
-Route::get('/', function (){
-    return view('file');
-});
+Route::get('/', 'FirstController@main');
 //Route::get('/', 'Auth\LoginController@showLoginForm');
 //Route::get('/', 'Auth\LoginController@showLoginForm');
-Route::post('auto', 'FirstController@autorization')->name('auto');
+//Route::post('auto', 'FirstController@autorization')->name('auto');
 Auth::routes();
 
 

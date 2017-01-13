@@ -6,17 +6,56 @@ use Illuminate\Http\Request;
 use App\FirstModel;
 use App\TableT;
 
+use Excel;
+
 class FirstController extends Controller
 {
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View вывод на екран главной страницы
      */
     public function main(){
-        //return view('app/main');
+      /*  //return view('app/main');
         $table= TableT::all();
         //dd($table);
-        return view('app/table',['view'=>$table]);
+        return view('app/table',['view'=>$table]);*/
+
+
+
+
+
+        Excel::create('Filename', function($excel) {
+
+            $excel->sheet('Sheetname', function($sheet) {
+
+               // $sheet->setOrientation('landscape');
+                $sheet->fromArray(array(
+                    array('data1', 'data2'),
+                    array('data3', 'data4')
+                ));
+
+            });
+
+
+            // Set the title
+            $excel->setTitle('Our new awesome title');
+
+            // Chain the setters
+            $excel->setCreator('Maatwebsite')
+                ->setCompany('Maatwebsite');
+
+            // Call them separately
+            $excel->setDescription('A demonstration to change the file properties');
+
+        })->export('xls');
+
+
+
+
+
+
+
     }
+
     public function autorization(Request $request){
         //dd($request->input('pass'));
         //return view('app/main');
