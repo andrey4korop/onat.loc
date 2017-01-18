@@ -1,0 +1,27 @@
+table td{
+    border: 1px solid black;
+    text-align: center;
+    padding: 1px;
+}
+table td input{
+    width: 60px;
+    text-align: center;
+    font-size: 13px;
+    border: none;
+
+
+}
+.small_colum{
+    width: 15px;
+}
+.big_colum{
+    width: inherit;
+    box-sizing: content-box;
+}
+
+.bold_tr{
+    font-weight: 900;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {-webkit-appearance: none;
+    margin:0;}

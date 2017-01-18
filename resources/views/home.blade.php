@@ -8,33 +8,11 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>qq</th>
-                            <th>qq</th>
-                            <th>qq</th>
-                            <th>qq</th>
-                            <th>qq</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                        </tr>
-                        <tr>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                            <td>q</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <a href="{{ route('table') }}">Расчет штата</a>
+                    <p>ЗДЕСЬ БУДЕТ ТОЛЬКО ТЕКСТОВОЕ ПОЛЕ <br>
+                        В ИНСТРУКЦИИ БУДЕТ ОБЪЯВСНЯТЬСЯ, КАК ПОЛЬЗОВАТЬСЯ ДАННОЙ СИСТЕМОЙ
+                    </p>
+
                 </div>
             </div>
         </div>

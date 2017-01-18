@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <!-- user style -->
+    <link href="/css/style.css" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
