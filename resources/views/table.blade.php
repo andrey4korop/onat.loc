@@ -1,110 +1,186 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Modern Business - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/css/modern-business.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{route('home')}}">Start Bootstrap</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li class="active">
+                        <a href="services.html">Services</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="portfolio-1-col.html">1 Column Portfolio</a>
+                            </li>
+                            <li>
+                                <a href="portfolio-2-col.html">2 Column Portfolio</a>
+                            </li>
+                            <li>
+                                <a href="portfolio-3-col.html">3 Column Portfolio</a>
+                            </li>
+                            <li>
+                                <a href="portfolio-4-col.html">4 Column Portfolio</a>
+                            </li>
+                            <li>
+                                <a href="portfolio-item.html">Single Portfolio Item</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="blog-home-1.html">Blog Home 1</a>
+                            </li>
+                            <li>
+                                <a href="blog-home-2.html">Blog Home 2</a>
+                            </li>
+                            <li>
+                                <a href="blog-post.html">Blog Post</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Pages <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="full-width.html">Full Width Page</a>
+                            </li>
+                            <li>
+                                <a href="sidebar.html">Sidebar Page</a>
+                            </li>
+                            <li>
+                                <a href="faq.html">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="404.html">404</a>
+                            </li>
+                            <li>
+                                <a href="pricing.html">Pricing Table</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
     <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
         <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Dashboard</div>
-
-                    <div class="panel-body">
-                        <a href="{{ route('home') }}">Главная</a>
-                        <table class="col-md-12">
-                            <tr>
-                                <td rowspan="2">№</td>
-                                <td rowspan="2">форма навчання факультет</td>
-                                <td colspan="2">контингент</td>
-                                <td rowspan="2">норматив<span style="font-size: 1em;"></span></td>
-                                <td colspan="2">кількість ставок</td>
-                                <td class="small_colum"></td>
-                                <td colspan="2">контингент</td>
-                                <td rowspan="2">норматив<span style="font-size: 1em;"></span></td>
-                                <td colspan="2">кількість ставок</td>
-                                <td colspan="3">всього ставок пвп</td>
-                            </tr>
-                            <tr>
-                                <td>б</td>
-                                <td>к</td>
-                                <td>б</td>
-                                <td>к</td>
-                                <td class="small_colum"></td>
-                                <td>б</td>
-                                <td>к</td>
-                                <td>б</td>
-                                <td>к</td>
-                                <td>б</td>
-                                <td>к</td>
-                                <td>б+к</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td colspan="5">денна форма навчання</td>
-                                <td class="small_colum"></td>
-                                <td colspan="5">заочна форма навчання</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr class="bold_tr">
-                                <td><input type="number" name="col"></td>
-                                <td><input type="text" name="col" class="big_colum"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td class="small_colum"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                            </tr>
-                            <tr>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="text" name="col" class="big_colum"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td class="small_colum"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                            </tr>
-                            <tr>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="text" name="col" class="big_colum"   ></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td class="small_colum"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                                <td><input type="number" name="col"></td>
-                            </tr>
-                        </table>
-
-                    </div>
-                </div>
+            <div class="col-lg-12">
+                <h1 class="page-header">Services
+                    <small>Subheading</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{route('home')}}">Home</a>
+                    </li>
+                    <li class="active">Services</li>
+                </ol>
             </div>
         </div>
+        
+
+      <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Email</th>
+         <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+      </tr>
+      <tr>
+        <td>Mary</td>
+        <td>Moe</td>
+        <td>mary@example.com</td>
+      </tr>
+      <tr>
+        <td>July</td>
+        <td>Dooley</td>
+        <td>july@example.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </footer>
+
     </div>
-@endsection
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
