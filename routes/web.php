@@ -24,7 +24,9 @@ Auth::routes();
 /**
  * Закрытый раздел
  */
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/table', 'HomeController@table')->name('table');
 Route::post('save','HomeController@saveTable')->name('save');
+Route::get('excel','HomeController@excel')->name('excel');
 

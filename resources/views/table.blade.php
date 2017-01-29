@@ -28,98 +28,27 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .hideSubject, .hideRowQualification, .addRowQualification{display: none;}
+        .hide, .hideSubject, .hideRowQualification, .addRowQualification{display: none;}
     </style>
 
 </head>
 
 <body>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{route('home')}}">Start Bootstrap</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="about.html">About</a>
-                    </li>
-                    <li class="active">
-                        <a href="services.html">Services</a>
-                    </li>
-                    <li>
-                        <a href="contact.html">Contact</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Portfolio <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="portfolio-1-col.html">1 Column Portfolio</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-2-col.html">2 Column Portfolio</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-3-col.html">3 Column Portfolio</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-4-col.html">4 Column Portfolio</a>
-                            </li>
-                            <li>
-                                <a href="portfolio-item.html">Single Portfolio Item</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Blog <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="blog-home-1.html">Blog Home 1</a>
-                            </li>
-                            <li>
-                                <a href="blog-home-2.html">Blog Home 2</a>
-                            </li>
-                            <li>
-                                <a href="blog-post.html">Blog Post</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Pages <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="full-width.html">Full Width Page</a>
-                            </li>
-                            <li>
-                                <a href="sidebar.html">Sidebar Page</a>
-                            </li>
-                            <li>
-                                <a href="faq.html">FAQ</a>
-                            </li>
-                            <li>
-                                <a href="404.html">404</a>
-                            </li>
-                            <li>
-                                <a href="pricing.html">Pricing Table</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
+<!— Navigation —>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form id="logout-form" action="{{ url('/logout') }}" method="POST">
+                {{ csrf_field() }}
+                <button type="submit" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Вихід із системи</button>
+            </form>
+
         </div>
-        <!-- /.container -->
-    </nav>
+        <!— /.navbar-collapse —>
+    </div>
+    <!— /.container —>
+</nav>
 
     <!-- Page Content -->
     <div class="container">
@@ -132,20 +61,22 @@
                 </h1>
 
                 <button type="button" id="addSubject" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати предмет</button>
+                <button type="button" id="addAspirantura" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати аспірантуру</button>
+                <button type="button" id="addDoctor" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати докторнатуру</button>
             </div>
         </div>
 
-        <div>
+        <div class="hide">
             <table>
                 <tbody class="hideSubject">
                     <tr class="subject">
                         <td><span class="glyphicon glyphicon-plus addRowQualification"></span></td>
                         <td>
                             <select name="subject[]">
-                                <option value="">Выберите предмет</option>
-                                <option value="1">економіка і прідприємництво</option>
-                                <option value="2">Менеджмент</option>
-                                <option value="3">Другие предметы</option>
+                                <option value="">Виберіть предмет</option>
+                                @foreach($subjects as $subject)
+                                    <option value="{{$subject->id}}">{{$subject->subject}}</option>
+                                @endforeach
                             </select>
 
                         </td>
@@ -157,16 +88,52 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-        <div>
+            <table>
+                <tbody class="hideAsp">
+                    <tr class="subject">
+                        <td><span class="glyphicon glyphicon-plus addRowAsp"></span></td>
+                        <td>
+
+                            Аспірантура
+
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table>
+                <tbody id="hideRowDoctor">
+                    <tr>
+                        <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
+                        <td>
+                            <input type="hidden" name="doctor[name]" value="doc">
+                            Докторнатура
+
+                        </td>
+                        <td><input type="number" name="doctor[freeD]"></td>
+                        <td><input type="number" name="doctor[payD]"></td>
+                        <td></td>
+                        <td><input type="number" name="doctor[freeZ]"></td>
+                        <td><input type="number" name="doctor[payZ]"></td>
+                    </tr>
+                </tbody>
+            </table>
+
             <table>
                 <tbody class="hideRowQualification">
                     <tr>
                         <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
                         <td>
                             <select name="table[0][row_][qualification]">
-                                <option>Бакалавр</option>
-                                <option>Магістр</option>
+                                <option>бакалаври</option>
+                                <option>спеціалісти</option>
+                                <option>магістри V</option>
+                                <option>магістри VI</option>
                             </select>
                         </td>
                         <td><input type="number" name="table[0][row_][freeD]"></td>
@@ -175,6 +142,26 @@
                         <td><input type="number" name="table[0][row_][freeZ]"></td>
                         <td><input type="number" name="table[0][row_][payZ]"></td>
                     </tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody class="hideOther">
+                <tr>
+                    <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
+                    <td>
+                        <select name="other[0][row_][qualification]">
+                            <option value="">Виберіть науку</option>
+                            @foreach($aspirantura as $asp)
+                                <option value="{{$asp->id}}">{{$asp->subject}}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td><input type="number" name="other[0][row_][freeD]"></td>
+                    <td><input type="number" name="other[0][row_][payD]"></td>
+                    <td></td>
+                    <td><input type="number" name="other[0][row_][freeZ]"></td>
+                    <td><input type="number" name="other[0][row_][payZ]"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -204,26 +191,25 @@
                         <td colspan="2">заочна форма навчання</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="sub">
+
+                </tbody>
+                <tbody id="asp">
+
+                </tbody>
+                <tbody id="doc">
 
                 </tbody>
             </table>
+            <button id="save" type="submit" class="btn btn-primary" style=" border-bottom-width: 1px;  margin-bottom: 10px;">Розрахувати</button>
         </form>
-        <button id="save" type="button" class="btn btn-primary" style=" border-bottom-width: 1px;  margin-bottom: 10px;">Розрахувати</button>
+
         <hr>
 
         <div id="result"></div>
 
 
-        <!-- Footer -->
-        <footer>
-            <div class="row">
-                <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
 
-                </div>
-            </div>
-        </footer>
 
     </div>
     <!-- /.container -->
@@ -236,12 +222,32 @@
 
     <script>
 
-        var rowForFirstTable = '<tr><td>Вставка</td><td>бакалаври</td><td></td><td></td><td></td><td></td><td></td></tr>';
-        var subject = $('.hideSubject').children().clone();
+
 
         $(document).ready(function(){
 
         });
+
+
+
+        $('body').on('click', '.addRowAsp', function () {
+            var t = $(this).parents('tr');
+            if(t.nextUntil('tr.subject').length) {
+                t.nextUntil('tr.subject').last().after($('.hideOther').children().clone())
+            }else if(t.nextAll().length){
+                t.nextAll().last().after($('.hideOther').children().clone())
+            }else{
+                t.after($('.hideOther').children().clone())
+            }
+
+            $('#firstTable [name*=0]').attr('name', function(){
+                return $(this).attr('name')
+                        .replace('0','other')
+                        .replace('row_', 'row_'+$('#firstTable [name*=row_]').parents('tr:not(.subject)').length)
+            })
+
+        });
+
 
 
 
@@ -262,17 +268,41 @@
             })
 
         });
-        $('body').on('click', '#addSubject', function () {
-            $('#firstTable > tbody:last').append($('.hideSubject').children().clone());
 
+
+
+
+
+        $('body').on('click', '#addDoctor', function () {
+            if(!$('#doc').children().length) {
+                $('#doc').append($('#hideRowDoctor').children().clone());
+            }
         });
+
+        $('body').on('click', '#addAspirantura', function () {
+            if(!$('#asp').children().length) {
+                $('#asp').append($('.hideAsp').children().clone());
+            }
+        });
+
+
+        $('body').on('click', '#addSubject', function () {
+            if(!$('#sub  tr:last').hasClass('subject')) {
+                $('#sub').append($('.hideSubject').children().clone());
+            }
+        });
+
+
+
+
         $('body').on('click', '.removeRowQualification', function () {
             $(this).parents('tr').remove();
-
         });
-        $('body').on('change', '.subject', function () {
-            console.log(this);
 
+
+
+
+        $('body').on('change', '.subject', function () {
             var t = $(this);
             t.find('.addRowQualification').show();
             t.find("select [value='']").remove();
@@ -285,30 +315,16 @@
                         $(this).attr('name', atr.replace(atr.substring(6, atr.indexOf(']')), t.find('select').val()));
                     }
                 })
-
             }else if(t.nextAll().length){
                 t.nextAll().last().after($('.hideRowQualification').children().clone())
             }
         });
 
-        $('body').on('click', '#save', function () {
-            console.log($('#form').serialize())
-            $.ajax({
-                type: 'POST',
-                url: '/save',
-                data: $('#form').serialize(),
-                success: function(data) {
-                    $('#result').html(data);
-                },
-                error:  function(xhr, str){
-                   // alert('Возникла ошибка: ' + xhr.responseCode);
-                    console.log(xhr);
-                    console.log(str);
-                }
-            });
 
 
-        });
+
+
+
 
 
     </script>
