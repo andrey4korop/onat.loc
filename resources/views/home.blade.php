@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Система розрахунку чисельності студентів</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">

@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Система розрахунку чисельності студентів</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -56,8 +56,7 @@
         <!-- Page Heading/Breadcrumbs -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Services
-                    <small>Subheading</small>
+                <h1 class="page-header">
                 </h1>
 
                 <button type="button" id="addSubject" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати предмет</button>

@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
 
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Система розрахунку чисельності студентів</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -29,11 +29,55 @@
     <![endif]-->
     <style>
         .hide, .hideSubject, .hideRowQualification, .addRowQualification{display: none;}
+		.rowBolid{font-weight: 600;}
+		table{
+			text-align:center;
+		}
     </style>
 
 </head>
 
 <body>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" id="myModalLabel">Вхід в систему</h4>
+            </div>
+            <!-- Основная часть модального окна, содержащая форму для регистрации -->
+            <form role="form" class="form-horizontal" action="{{ route('mail') }}" method="POST">
+                <div class="modal-body">
+                    <!-- Форма для регистрации -->
+
+                {{ csrf_field() }}
+                <!-- Блок для ввода логина -->
+                    <div class="form-group has-feedback">
+                        <label for="login" class="control-label col-xs-3">Email:</label>
+                        <div class="col-xs-6">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <input type="email" class="form-control" required="required" name="email">
+                            </div>
+                            <span class="glyphicon form-control-feedback"></span>
+                        </div>
+                    </div>
+                    <!-- Блок для ввода email -->
+
+                    <!-- Конец блока для ввода email-->
+
+                </div>
+                <!-- Нижняя часть модального окна -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
+                    <button id="save" type="submit" class="btn btn-primary">Відправити</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
@@ -49,7 +93,7 @@
                         <button type="button" id="print" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Друкувати</button>
                         <button type="button" onClick='location.href="{{route('excel')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі Exсel</button>
                         <button type="button" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі PDF</button>
-                        <button type="button" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Відправити на електронну пошту</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Відправити на електронну пошту</button>
                         </form>
                     </div>
 
@@ -73,36 +117,36 @@
         <thead>
         <tr>
             <td rowspan="2">№<br>п/п</td>
-            <td rowspan="2">форма навчання</td>
-            <td colspan="2">контингент</td>
-            <td rowspan="2">норматив<br>пост</td>
-            <td colspan="2">кількість ставок</td>
+            <td rowspan="2">Форма навчання</td>
+            <td colspan="2">Контингент</td>
+            <td rowspan="2">Норматив<br>пост</td>
+            <td colspan="2">Кількість ставок</td>
             <td></td>
-            <td colspan="2">контингент</td>
-            <td rowspan="2">норматив<br>пост</td>
-            <td colspan="2">кількість ставок</td>
-            <td colspan="3">всього ставок пвп</td>
+            <td colspan="2">Контингент</td>
+            <td rowspan="2">Норматив<br>пост</td>
+            <td colspan="2">Кількість ставок</td>
+            <td colspan="3">Всього ставок ПВП</td>
         </tr>
         <tr>
-            <td>б</td>
-            <td>к</td>
-            <td>б</td>
-            <td>к</td>
+            <td>Б</td>
+            <td>К</td>
+            <td>Б</td>
+            <td>К</td>
             <td></td>
-            <td>б</td>
-            <td>к</td>
-            <td>б</td>
-            <td>к</td>
-            <td>б</td>
-            <td>к</td>
-            <td>б+к</td>
+            <td>Б</td>
+            <td>К</td>
+            <td>Б</td>
+            <td>К</td>
+            <td>Б</td>
+            <td>К</td>
+            <td>Б+К</td>
         </tr>
-        <tr>
+        <tr class="rowBolid">
             <td></td>
             <td></td>
-            <td colspan="5">денна форма навчання</td>
+            <td colspan="5">Денна форма навчання</td>
             <td></td>
-            <td colspan="5">заочна форма навчання</td>
+            <td colspan="5">Заочна форма навчання</td>
             <td></td>
             <td></td>
             <td></td>
@@ -110,7 +154,7 @@
         </thead>
         <tbody>
         @forelse($subject as $s)
-            <tr>
+            <tr class="rowBolid">
                 <td>{{$subjectRows[$s]['num']}}</td>
                 <td>{{$subjectRows[$s]['name']}}</td>
                 <td>{{$subjectRows[$s]['freeD']}}</td>
@@ -152,7 +196,7 @@
         @empty
         @endforelse
 
-        <tr>
+        <tr class="rowBolid">
             <td></td>
             <td>Всього по формі навчання</td>
             <td>{{$all['freeD']}}</td>
@@ -193,7 +237,7 @@
         @endforeach
 
         @forelse($aspRow as $s)
-            <tr>
+            <tr class="rowBolid">
                 <td>{{$s['num']}}</td>
                 <td>{{$s['name']}}</td>
                 <td>{{$s['freeD']}}</td>
@@ -212,7 +256,7 @@
                 <td>{{round($s['all'],2)}}</td>
             </tr>
             @foreach($tableAsp as $row)
-                <tr>
+                <tr class="rowBolid">
                     <td></td>
                     <td>{{$row['qualification']}}</td>
                     <td>{{$row['freeD']}}</td>
@@ -235,7 +279,7 @@
         @endforelse
 
         @if(!empty($docRow))
-            <tr>
+            <tr class="rowBolid">
                 <td>{{$docRow['num']}}</td>
                 <td>{{$docRow['qualification']}}</td>
                 <td>{{$docRow['freeD']}}</td>
@@ -255,7 +299,7 @@
             </tr>
         @endif
 
-        <tr>
+        <tr class="rowBolid">
             <td></td>
             <td>ВСЬОГО</td>
             <td></td>

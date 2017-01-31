@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Subject;
 use App\Table;
+use Mail;
 
 use Excel;
 
@@ -163,17 +164,19 @@ class HomeController extends Controller
                     /**
                      * строка для ...
                      */
-                    $subjectRows[$s]['freeD'] += $row['freeD'];
-                    $subjectRows[$s]['payD'] += $row['payD'];
-                    $subjectRows[$s]['stavkaFD'] += $table[$s][$key]['stavkaFD'];
-                    $subjectRows[$s]['stavkaPD'] += $table[$s][$key]['stavkaPD'];
-                    $subjectRows[$s]['freeZ'] += $row['freeZ'];
-                    $subjectRows[$s]['payZ'] += $row['payZ'];
-                    $subjectRows[$s]['stavkaFZ'] += $table[$s][$key]['stavkaFZ'];
-                    $subjectRows[$s]['stavkaPZ'] += $table[$s][$key]['stavkaPZ'];
-                    $subjectRows[$s]['allF'] += $table[$s][$key]['allF'];
-                    $subjectRows[$s]['allP'] += $table[$s][$key]['allP'];
-                    $subjectRows[$s]['all'] += $table[$s][$key]['all'];
+                    if($row['qualification']!='магістри VI') {
+                        $subjectRows[$s]['freeD'] += $row['freeD'];
+                        $subjectRows[$s]['payD'] += $row['payD'];
+                        $subjectRows[$s]['stavkaFD'] += $table[$s][$key]['stavkaFD'];
+                        $subjectRows[$s]['stavkaPD'] += $table[$s][$key]['stavkaPD'];
+                        $subjectRows[$s]['freeZ'] += $row['freeZ'];
+                        $subjectRows[$s]['payZ'] += $row['payZ'];
+                        $subjectRows[$s]['stavkaFZ'] += $table[$s][$key]['stavkaFZ'];
+                        $subjectRows[$s]['stavkaPZ'] += $table[$s][$key]['stavkaPZ'];
+                        $subjectRows[$s]['allF'] += $table[$s][$key]['allF'];
+                        $subjectRows[$s]['allP'] += $table[$s][$key]['allP'];
+                        $subjectRows[$s]['all'] += $table[$s][$key]['all'];
+                    }
 
                     $allSubject[$table[$s][$key]['qualification']]['freeD']+=$row['freeD'];
                     $allSubject[$table[$s][$key]['qualification']]['payD']+=$row['payD'];
@@ -344,4 +347,32 @@ class HomeController extends Controller
        // $input['has'] = Request::all();
         return view('tt',$data);
     }
+
+    public function mail(Request $request){
+        $user = $request->user();
+
+
+        $data = $user->table->last()->table;
+
+
+        $from='ОНАС'; //$request->input('name');
+        $to=$request->input('email');
+        $subject= 'Тема'; //$request->input('subject');
+        $file='';
+        if ($request->hasFile('file')) {
+            $file=$request->file('file');
+            //dd($file);
+        }
+
+        Mail::send("email", $data, function ($message) use ($from, $to, $subject) {
+            $message->from('andrey999@i.ua', $from );
+            $message->to($to);
+            $message->subject($subject);
+
+        });
+
+        return   redirect()->route('home');
+
+    }
+
 }
