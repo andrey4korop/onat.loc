@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Subject;
 use App\Table;
 use Mail;
-
+use PDF;
 use Excel;
 
 class HomeController extends Controller
@@ -47,7 +47,7 @@ class HomeController extends Controller
         //->table=$data;
 
         $data = $user->table->last()->table;
-        Excel::create('New file', function($excel) use ($data){
+        Excel::create('Table', function($excel) use ($data){
 
             $excel->sheet('New sheet', function($sheet) use ($data) {
 
@@ -57,6 +57,15 @@ class HomeController extends Controller
 
 
         })->export('xls');
+    }
+
+    public function pdf(Request $request){
+        $user = $request->user();
+        //->table=$data;
+
+        $data = $user->table->last()->table;
+        $pdf = PDF::loadView('pdf',$data);
+        return $pdf->download('Table.pdf'); //stream();  //download('invoice.pdf');
     }
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <title>Система розрахунку чисельності студентів</title>
 
@@ -92,7 +92,7 @@
 
                         <button type="button" id="print" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Друкувати</button>
                         <button type="button" onClick='location.href="{{route('excel')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі Exсel</button>
-                        <button type="button" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі PDF</button>
+                        <button type="button" onClick='location.href="{{route('pdf')}}"'class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі PDF</button>
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Відправити на електронну пошту</button>
                         </form>
                     </div>
