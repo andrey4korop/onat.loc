@@ -23,6 +23,7 @@
                         <td>
                             <select name="subject[]">
                                 <option value="">Виберіть предмет</option>
+
                                 @foreach($subjects as $subject)
                                     <option value="{{$subject->id}}">{{$subject->subject}}</option>
                                 @endforeach
@@ -141,12 +142,99 @@
                     </tr>
                 </thead>
                 <tbody id="sub">
-
+                @forelse($table['subject'] as $keyS => $s)
+                    <tr class="subject">
+                        <td><span class="glyphicon glyphicon-plus addRowQualification"></span></td>
+                        <td>
+                            <select name="subject[]">
+                                <option value="">Виберіть предмет</option>
+                                @foreach($subjects as $subject)
+                                    <option value="{{$subject->id}}" {{($subject->id == $s) ? 'selected' : ''}}>{{$subject->subject}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @forelse($table['table'][$s] as $keyQ => $row)
+                        <tr>
+                            <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
+                            <td>
+                                <select name="table[{{$s}}][{{$keyQ}}][qualification]">
+                                    <option{{($row['qualification'] == 'бакалаври') ? 'selected' : ''}}>бакалаври</option>
+                                    <option{{($row['qualification'] == 'спеціалісти') ? 'selected' : ''}}>спеціалісти</option>
+                                    <option{{($row['qualification'] == 'магістри V') ? 'selected' : ''}}>магістри V</option>
+                                    <option{{($row['qualification'] == 'магістри VI') ? 'selected' : ''}}>магістри VI</option>
+                                </select>
+                            </td>
+                            <td><input type="number" name="table[{{$s}}][{{$keyQ}}][freeD]" value="{{$row['freeD']}}"></td>
+                            <td><input type="number" name="table[{{$s}}][{{$keyQ}}][payD]" value="{{$row['payD']}}"></td>
+                            <td></td>
+                            <td><input type="number" name="table[{{$s}}][{{$keyQ}}][freeZ]" value="{{$row['freeZ']}}"></td>
+                            <td><input type="number" name="table[{{$s}}][{{$keyQ}}][payZ]" value="{{$row['payZ']}}"></td>
+                        </tr>
+                    @empty
+                    @endforelse
+                @empty
+                @endforelse
                 </tbody>
+
                 <tbody id="asp">
-
+                @if(!empty($table['tableAsp']))
+                    <tr class="subject">
+                        <td><span class="glyphicon glyphicon-plus addRowAsp"></span></td>
+                        <td>Аспірантура</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @forelse($table['tableAsp'] as $keyAsp => $s)
+                        <tr>
+                            <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
+                            <td>
+                                <select name="other[other][{{$keyAsp}}][qualification]">
+                                    <option value="">Виберіть науку</option>
+                                    @foreach($aspirantura as $asp)
+                                        <option value="{{$asp->id}}" {{($asp->subject==$s['qualification']) ? 'selected' : ''}}>{{$asp->subject}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td><input type="number" name="other[other][{{$keyAsp}}][freeD]" value="{{$s['freeD']}}"></td>
+                            <td><input type="number" name="other[other][{{$keyAsp}}][payD]" value="{{$s['payD']}}"></td>
+                            <td></td>
+                            <td><input type="number" name="other[other][{{$keyAsp}}][freeZ]" value="{{$s['freeZ']}}"></td>
+                            <td><input type="number" name="other[other][{{$keyAsp}}][payZ]" value="{{$s['payZ']}}"></td>
+                        </tr>
+                    @empty
+                    @endforelse
+                @endif
                 </tbody>
+
                 <tbody id="doc">
+                @if(!empty($table['docRow']))
+
+                <tr>
+                    <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
+                    <td>
+                        <input type="hidden" name="doctor[name]" value="doc">
+                        Докторнатура
+
+                    </td>
+                    <td><input type="number" name="doctor[freeD]" value="{{$table['docRow']['freeD']}}"></td>
+                    <td><input type="number" name="doctor[payD]" value="{{$table['docRow']['payD']}}"></td>
+                    <td></td>
+                    <td><input type="number" name="doctor[freeZ]" value="{{$table['docRow']['freeZ']}}"></td>
+                    <td><input type="number" name="doctor[payZ]" value="{{$table['docRow']['payZ']}}"></td>
+                </tr>
+                @endif
+
+
+
 
                 </tbody>
             </table>
@@ -193,6 +281,7 @@
                 $('#form').submit();
             }
         });
+
 
         $('body').on('click', '.addRowAsp', function () {
             var t = $(this).parents('tr');

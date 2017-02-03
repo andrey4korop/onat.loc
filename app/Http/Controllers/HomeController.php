@@ -8,6 +8,7 @@ use App\Table;
 use Mail;
 use PDF;
 use Excel;
+use App\Norm;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('home');
     }
@@ -34,12 +35,21 @@ class HomeController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function table()
+
+    public function table(Request $request)
     {
         $subjects=Subject::all()->where('other','');
         $aspirantura=Subject::all()->where('other','2');
-       // dd($aspirantura);
+        // dd($aspirantura);
         return view('table',['subjects' => $subjects, 'aspirantura' => $aspirantura]);
+    }
+    public function tableedit(Request $request){
+        $user = $request->user();
+        $data['table'] = $user->table->last()->table;
+        $data['subjects'] = Subject::all()->where('other','');
+        $data['aspirantura'] = Subject::all()->where('other','2');
+        //dump($data);
+        return view('tableedit', $data);
     }
 
     public function excel(Request $request){
@@ -68,6 +78,30 @@ class HomeController extends Controller
         return $pdf->download('Table.pdf'); //stream();  //download('invoice.pdf');
     }
 
+    public function editnorms(Request $request){
+        $subjects=Subject::with('norm')->orderBy('other', 'asc')->get();
+
+        foreach ($subjects as $subject) {
+            $data['subjects'][$subject->id] = $subject;
+            foreach ($subject->norm as $norm){
+                $data['table'][$norm->id_subject][] = $norm;
+            }
+        }
+       // dump($data);
+        return view('editnorm',$data);
+    }
+    public function savenorm(Request $request){
+        $table = $request->input('table');
+        $norms = Norm::all();
+        foreach ($table as $key => $norm) {
+            $new = $norms->where('id', $key)->first();
+            $new->normD=$norm['normD'];
+            $new->normZ=$norm['normZ'];
+            $new->save();
+        }
+        return view('success');
+
+    }
 
 
     public function saveTable(Request $request)
@@ -300,8 +334,8 @@ class HomeController extends Controller
              * Нужно зделать так чтоб оно бралось с базы данных и сюда вставлялось
              * но покашто для примера будет число 10
              */
-            $docRow['normD'] = 12; //Норма пост
-            $docRow['normZ'] = 12; //Норма пост
+            $docRow['normD'] = $subjects->where('other','3')->first()->norm->first()->normD; //Норма пост
+            $docRow['normZ'] = $subjects->where('other','3')->first()->norm->first()->normZ; //Норма пост
 
             $docRow['qualification']= 'Докторнатура';
             $docRow['num'] = '3';
@@ -381,6 +415,22 @@ class HomeController extends Controller
         });
 
         return   redirect()->route('home');
+
+    }
+
+    public function help(Request $request)
+    {
+        $user = $request->user();
+        $from = $user->name; //$request->input('name');
+        $to = 'andrey999@i.ua';
+        $data['content'] = $request->text;
+        $subject= 'ERROR FROM USER'; //$request->input('subject');
+        Mail::send('emailhelp', $data, function ($message) use ($from, $to, $subject) {
+            $message->from('andrey999@i.ua', $from );
+            $message->to($to);
+            $message->subject($subject);
+
+        });
 
     }
 

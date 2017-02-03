@@ -25,10 +25,14 @@ Auth::routes();
  * Закрытый раздел
  */
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/table', 'HomeController@table')->name('table');
+Route::get('home', 'HomeController@index')->name('home');
+Route::get('table', 'HomeController@table')->name('table');
+Route::post('table', 'HomeController@tableedit')->name('tableedit');
 Route::post('save','HomeController@saveTable')->name('save');
 Route::post('mail','HomeController@mail')->name('mail');
 Route::get('excel','HomeController@excel')->name('excel');
 Route::get('pdf','HomeController@pdf')->name('pdf');
+Route::get('editnorms','HomeController@editnorms')->name('editnorms');
+Route::post('editnorms','HomeController@savenorm')->name('savenorm');
+Route::post('help','HomeController@help')->name('send_help');
 
