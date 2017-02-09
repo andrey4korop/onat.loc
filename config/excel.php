@@ -31,7 +31,7 @@ return array(
         */
         'settings' => array(
 
-            'memoryCacheSize' => '32MB',
+            'memoryCacheSize' => '64MB',
             'cacheTime'       => 600
 
         ),
@@ -58,15 +58,15 @@ return array(
     ),
 
     'properties' => array(
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
-        'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
+        'creator'        => 'ОНАТ',
+        'lastModifiedBy' => 'ОНАТ',
+        'title'          => 'ОНАТ',
+        'description'    => '',
+        'subject'        => '',
+        'keywords'       => '',
         'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'manager'        => 'ОНАТ',
+        'company'        => 'ОНАТ',
     ),
 
     /*
@@ -106,7 +106,7 @@ return array(
     |
     */
 
-    'creator'    => 'Maatwebsite',
+    'creator'    => 'ОНАТ',
 
     'csv'        => array(
         /*

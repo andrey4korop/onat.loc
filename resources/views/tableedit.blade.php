@@ -9,7 +9,7 @@
                 <h1 class="page-header">
                 </h1>
 
-                <button type="button" id="addSubject" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати предмет</button>
+                <button type="button" id="addSubject" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати спеціальність</button>
                 <button type="button" id="addAspirantura" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати аспірантуру</button>
                 <button type="button" id="addDoctor" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати докторнатуру</button>
             </div>
@@ -22,7 +22,7 @@
                         <td><span class="glyphicon glyphicon-plus addRowQualification"></span></td>
                         <td>
                             <select name="subject[]">
-                                <option value="">Виберіть предмет</option>
+                                <option value="">Виберіть спеціальність</option>
 
                                 @foreach($subjects as $subject)
                                     <option value="{{$subject->id}}">{{$subject->subject}}</option>
@@ -115,13 +115,13 @@
                 </tbody>
             </table>
         </div>
-        <form action="{{ route('save') }}" id="form" method="POST">
+        <form action="{{isset($id) ? route('save',['id' => $id]) : route('save')}}" id="form" method="POST">
             {{ csrf_field() }}
             <table class="table table-bordered" id="firstTable">
                <thead>
                     <tr>
                         <td rowspan="2">№</td>
-                        <td rowspan="2">Форма навчання</td>
+                        <td rowspan="2">Форма навчання Факультет</td>
                         <td colspan="2">Контингент</td>
                         <td></td>
                         <td colspan="2">Контингент</td>
@@ -131,7 +131,7 @@
                         <td>К</td>
                         <td></td>
                         <td>Б</td>
-                        <td>Д</td>
+                        <td>К</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -164,10 +164,10 @@
                             <td><span class="glyphicon glyphicon-minus removeRowQualification"></span></td>
                             <td>
                                 <select name="table[{{$s}}][{{$keyQ}}][qualification]">
-                                    <option{{($row['qualification'] == 'бакалаври') ? 'selected' : ''}}>бакалаври</option>
-                                    <option{{($row['qualification'] == 'спеціалісти') ? 'selected' : ''}}>спеціалісти</option>
-                                    <option{{($row['qualification'] == 'магістри V') ? 'selected' : ''}}>магістри V</option>
-                                    <option{{($row['qualification'] == 'магістри VI') ? 'selected' : ''}}>магістри VI</option>
+                                    <option {{($row['qualification'] == 'бакалаври') ? 'selected' : ''}}>бакалаври</option>
+                                    <option {{($row['qualification'] == 'спеціалісти') ? 'selected' : ''}}>спеціалісти</option>
+                                    <option {{($row['qualification'] == 'магістри V') ? 'selected' : ''}}>магістри V</option>
+                                    <option {{($row['qualification'] == 'магістри VI') ? 'selected' : ''}}>магістри VI</option>
                                 </select>
                             </td>
                             <td><input type="number" name="table[{{$s}}][{{$keyQ}}][freeD]" value="{{$row['freeD']}}"></td>
@@ -249,8 +249,7 @@
 @endsection
 
 @section('header')
-    <button type="button" onClick='location.href="{{route('editnorms')}}"'
-            class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Змінити норми</button>
+
 @endsection
 
 @section('scripts')
@@ -364,6 +363,13 @@
 @section('style')
     <style>
         .hide, .hideSubject, .hideRowQualification, .addRowQualification{display: none;}
-        table{text-align: center;}
+       table{
+           text-align: center;
+           font-weight: bold;
+       }
+       input{
+           text-align: center;
+           font-weight: normal;
+       }
     </style>
 @endsection

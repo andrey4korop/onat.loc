@@ -39,10 +39,17 @@
         }
         #help{
             display: none;
+              opacity: 0.7; 
         }
         #help_button{
             width: 300px;
         }
+        #send{
+                margin-bottom: 10px;
+    margin-top: 10px;
+        }
+        textarea{width:300px;}
+        
     </style>
 
 </head>
@@ -56,6 +63,9 @@
             <form id="logout-form" action="{{ url('/logout') }}" method="POST">
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Вихід із системи</button>
+                <button type="button" onClick='location.href="{{route('home')}}"'  class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Інструкція</button>
+                <button type="button" onClick='location.href="{{route('arhive')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Архів</button>
+                <button type="button" onClick='location.href="{{route('editnorms')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Змінити норми</button>
                 @yield('header')
 
             </form>
@@ -72,11 +82,11 @@
 <aside>
     <form id="help" action="{{route('send_help')}}" method="POST">
         {{ csrf_field() }}
-        <textarea name="text"  cols="30" rows="10"></textarea>
-        <button id="send"  type="button">Send</button>
+        <textarea name="text"  rows="10"></textarea>
+        <button id="send" class="btn btn-primary" type="button">Відправити</button>
     </form>
 <div id="res"></div>
-    <button id="help_button"  type="button">Help</button>
+    <button id="help_button" class="btn btn-primary" type="button">Повідомити про помилку!</button>
 </aside>
 <!-- jQuery -->
 <script src="/js/jquery.js"></script>

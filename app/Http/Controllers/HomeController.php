@@ -32,6 +32,22 @@ class HomeController extends Controller
         return view('home');
     }
 
+    public function arhive(Request $request)
+    {
+        $user = $request->user();
+        $arhive = $user->table;
+        //dump($arhive);
+        $data['arhive'] = $arhive;
+        return view('arhive', $data);
+    }
+    public function open(Request $request){
+        $user = $request->user();
+        //->table=$data;
+
+        $data = $user->table->find($request->id)->table;
+        $data['id'] = $request->id;
+        return view('tt', $data);
+    }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -45,37 +61,81 @@ class HomeController extends Controller
     }
     public function tableedit(Request $request){
         $user = $request->user();
-        $data['table'] = $user->table->last()->table;
+        if(isset($request->id)){
+            $data['table'] = $user->table->find($request->id)->table;
+        }
+        else{
+            $data['table'] = $user->table->last()->table;
+        }
         $data['subjects'] = Subject::all()->where('other','');
         $data['aspirantura'] = Subject::all()->where('other','2');
+        $data['id'] = $request->id;
         //dump($data);
         return view('tableedit', $data);
     }
 
-    public function excel(Request $request){
+    public function excel(Request $request, $export = 'brouser'){
         $user = $request->user();
         //->table=$data;
 
-        $data = $user->table->last()->table;
-        Excel::create('Table', function($excel) use ($data){
+        if(isset($request->id)){
+            $data = $user->table->find($request->id)->table;
+        }
+        else{
+            $data = $user->table->last()->table;
+        }
 
-            $excel->sheet('New sheet', function($sheet) use ($data) {
-
-                $sheet->loadView('file', $data);
-
+        if($export == 'file') {
+            $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+            $numChars = strlen($chars);
+            $string = '';
+            for ($i = 0; $i < 10; $i++) {
+                $string .= substr($chars, rand(1, $numChars) - 1, 1);
+            }
+            $table = Excel::create($string, function($excel) use ($data){
+                $excel->sheet('New sheet', function($sheet) use ($data) {
+                    $sheet->loadView('file', $data);
+                });
             });
 
-
-        })->export('xls');
+            return $table->store('xls', storage_path('excel\exports') , true);
+        }
+        else{
+            $table = Excel::create('Table', function($excel) use ($data){
+                $excel->sheet('New sheet', function($sheet) use ($data) {
+                    $sheet->loadView('file', $data);
+                });
+            });
+            $table->export('xls');
+        }
     }
 
-    public function pdf(Request $request){
+    public function pdf(Request $request, $export = 'brouser'){
         $user = $request->user();
         //->table=$data;
 
-        $data = $user->table->last()->table;
-        $pdf = PDF::loadView('pdf',$data);
-        return $pdf->download('Table.pdf'); //stream();  //download('invoice.pdf');
+        if(isset($request->id)){
+            $data = $user->table->find($request->id)->table;
+        }
+        else{
+            $data = $user->table->last()->table;
+        }
+        $pdf = PDF::loadView('pdf', $data)->setPaper('a4', 'landscape');
+        if($export == 'file') {
+            $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
+            $numChars = strlen($chars);
+            $string = '';
+            for ($i = 0; $i < 10; $i++) {
+                $string .= substr($chars, rand(1, $numChars) - 1, 1);
+            }
+
+            $pdf->save(storage_path('excel/') . $string.'.pdf');
+            return storage_path('excel/') . $string.'.pdf';
+        }else{
+            return $pdf->download('Table.pdf');
+        }
+
+         //stream();  //download('invoice.pdf');
     }
 
     public function editnorms(Request $request){
@@ -380,7 +440,14 @@ class HomeController extends Controller
 
         $user = $request->user();
         //->table=$data;
-        $tt=new Table();
+        if(isset($request->id)){
+            $tt = $user->table->find($request->id);
+        }
+        else{
+            $tt = new Table();
+        }
+
+
         $tt->table = $data;
         $user->table()->save($tt);
 
@@ -393,24 +460,31 @@ class HomeController extends Controller
 
     public function mail(Request $request){
         $user = $request->user();
-
-
-        $data = $user->table->last()->table;
-
-
+        if(isset($request->id)){
+            $data = $user->table->find($request->id)->table;
+        }
+        else{
+            $data = $user->table->last()->table;
+        }
         $from='ОНАС'; //$request->input('name');
         $to=$request->input('email');
-        $subject= 'Тема'; //$request->input('subject');
-        $file='';
-        if ($request->hasFile('file')) {
-            $file=$request->file('file');
-            //dd($file);
-        }
+        $subject = 'Тема'; //$request->input('subject');
+        $fileExcel = $this->excel($request, 'file');
+        $filePDF = $this->pdf($request, 'file');
+//dd($file);
 
-        Mail::send("email", $data, function ($message) use ($from, $to, $subject) {
+        Mail::send("email", $data, function ($message) use ($from, $to, $subject, $fileExcel, $filePDF) {
             $message->from('andrey999@i.ua', $from );
             $message->to($to);
             $message->subject($subject);
+            $message->attach($fileExcel['full'],
+                ['as' => 'Table.xls',
+                    'mime' => 'application/excel'
+                ]);
+            $message->attach($filePDF,
+                ['as' => 'Table.pdf',
+                    'mime' => 'application/pdf'
+                ]);
 
         });
 
@@ -432,6 +506,17 @@ class HomeController extends Controller
 
         });
 
+    }
+
+    public function del(Request $request){
+        $user = $request->user();
+        if(isset($request->id)){
+           $user->table->find($request->id)->delete();
+        }
+        else{
+            $user->table->last()->delete();
+        }
+        return 'ok';
     }
 
 }

@@ -6,7 +6,11 @@
 
 @section('style')
     <style>
-       table{text-align: center;}
+       table{text-align: center;
+       font-weight: bold;
+       }
+       input{text-align: center;
+       font-weight: normal;}
     </style>
 @endsection
 
@@ -15,16 +19,11 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container" style="margin-top: 50px;">
 
         <!-- Page Heading/Breadcrumbs -->
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header"></h1>
-
-                <button type="button" id="addSubject" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати предмет</button>
-                <button type="button" id="addAspirantura" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати аспірантуру</button>
-                <button type="button" id="addDoctor" class="btn btn-primary" style=" border-bottom-width: 1px;   margin-bottom: 10px;">Додати докторнатуру</button>
             </div>
         </div>
 

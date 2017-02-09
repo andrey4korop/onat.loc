@@ -13,10 +13,7 @@
     <title>Система розрахунку чисельності студентів</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="/css/modern-business.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -28,13 +25,42 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style>
-        .hide, .hideSubject, .hideRowQualification, .addRowQualification{display: none;}
-        .rowBolid{font-weight: 600;}
+
+        .rowBolid, thead{font-weight: 600;}
         table{
             text-align:center;
             font-family: times;
+            border: 1px solid black;
+
+            margin: 0;
+            border-collapse:collapse
         }
-        td{border: solid 1px black;}
+        tr{
+            border: 1px solid black;
+
+            margin: 0;
+            border-collapse:collapse
+        }
+        td{border: 1px solid black;
+
+            margin: 0;
+            border-collapse:collapse
+        }
+        .mini td, .mini tr{
+            border: none;
+        }
+        .mini{
+            border: none;
+            margin:20px;
+            text-align: left ;
+            font-weight: 600;
+        }
+        .pad{
+            padding-left: 100px;
+        }
+        .hide{
+            color: #fff;
+        }
     </style>
 
 </head>
@@ -53,11 +79,11 @@
         <thead>
         <tr>
             <td >№<br>п/п</td>
-            <td>Форма навчання</td>
+            <td>Форма навчання <br>Факультет</td>
             <td colspan="2">Контингент</td>
             <td >Норматив<br>пост</td>
             <td colspan="2">Кількість ставок</td>
-            <td></td>
+            <td><p class="hide">///</p></td>
             <td colspan="2">Контингент</td>
             <td >Норматив<br>пост</td>
             <td colspan="2">Кількість ставок</td>
@@ -74,9 +100,9 @@
             <td></td>
             <td>Б</td>
             <td>К</td>
+            <td></td>
             <td>Б</td>
             <td>К</td>
-            <td></td>
             <td>Б</td>
             <td>К</td>
             <td>Б+К</td>
@@ -263,7 +289,26 @@
         </tbody>
     </table>
 
-
+    <table class="mini">
+        <tbody>
+        <tr>
+            <td>Ректор</td>
+            <td class="pad">Воробієнко П.П.</td>
+        </tr>
+        <tr>
+            <td>Проректор з НР</td>
+            <td class="pad">Захарченко М.В.</td>
+        </tr>
+        <tr>
+            <td>Головний бухгалтер</td>
+            <td class="pad">Дмитренко О.Д.</td>
+        </tr>
+        <tr>
+            <td>Начальник ПФВ</td>
+            <td class="pad">Гранатурова С.В.</td>
+        </tr>
+        </tbody>
+    </table>
 
 
 

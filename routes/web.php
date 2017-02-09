@@ -27,12 +27,15 @@ Auth::routes();
 
 Route::get('home', 'HomeController@index')->name('home');
 Route::get('table', 'HomeController@table')->name('table');
-Route::post('table', 'HomeController@tableedit')->name('tableedit');
+Route::post('table/{id?}', 'HomeController@tableedit')->name('tableedit');
 Route::post('save','HomeController@saveTable')->name('save');
-Route::post('mail','HomeController@mail')->name('mail');
-Route::get('excel','HomeController@excel')->name('excel');
-Route::get('pdf','HomeController@pdf')->name('pdf');
+Route::post('mail/{id?}','HomeController@mail')->name('mail');
+Route::get('excel/{id?}','HomeController@excel')->name('excel');
+Route::get('open/{id}','HomeController@open')->name('open');
+Route::get('pdf/{id?}','HomeController@pdf')->name('pdf');
+Route::post('del/{id?}','HomeController@del')->name('del');
 Route::get('editnorms','HomeController@editnorms')->name('editnorms');
 Route::post('editnorms','HomeController@savenorm')->name('savenorm');
 Route::post('help','HomeController@help')->name('send_help');
+Route::get('arhive', 'HomeController@arhive')->name('arhive');
 

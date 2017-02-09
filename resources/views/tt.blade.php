@@ -1,17 +1,13 @@
 @extends('layouts.lay')
 
 @section('header')
-    <button type="button" onclick="postToUrl('{{route('tableedit')}}', {'_token':  '{{csrf_token()}}' }, 'POST')" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Редагувати</button>
-    <button type="button" id="print" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Друкувати</button>
-    <button type="button" onClick='location.href="{{route('excel')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі Exсel</button>
-    <button type="button" onClick='location.href="{{route('pdf')}}"'class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі PDF</button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Відправити на електронну пошту</button>
+
 @endsection
 
 @section('style')
     <style>
-        .rowBolid{font-weight: 600;}
-        table{
+        .rowBolid, thead{font-weight: 600;}
+        table, .row{
             text-align:center;
         }
     </style>
@@ -78,7 +74,7 @@
                     <h4 class="modal-title" id="myModalLabel">Вхід в систему</h4>
                 </div>
                 <!-- Основная часть модального окна, содержащая форму для регистрации -->
-                <form role="form" class="form-horizontal" action="{{ route('mail') }}" method="POST">
+                <form role="form" class="form-horizontal" action="{{isset($id) ? route('mail',['id' => $id]) : route('mail')}}" method="POST">
                     <div class="modal-body">
                         <!-- Форма для регистрации -->
 
@@ -108,9 +104,13 @@
             </div>
         </div>
     </div>
-
-
-
+<div class="row">
+    <button type="button" onclick="postToUrl('{{isset($id) ? route('tableedit',['id' => $id]) : route('tableedit')}}', {'_token':  '{{csrf_token()}}' }, 'POST')" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Редагувати</button>
+    <button type="button" id="print" class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Друкувати</button>
+    <button type="button" onClick='location.href="{{ isset($id) ? route('excel',['id' => $id]) : route('excel') }}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі Exсel</button>
+    <button type="button" onClick='location.href="{{isset($id) ? route('pdf',['id' => $id]) : route('pdf')}}"'class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Зберегти в форматі PDF</button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Відправити на електронну пошту</button>
+</div>
 <div class="container"  style="margin-top: 30px">
     <table  class="table table-bordered">
         <thead>
