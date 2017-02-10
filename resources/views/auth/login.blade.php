@@ -95,7 +95,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#myModal">Вхід в систему</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-top: 8px">Вхід в систему</button>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
 

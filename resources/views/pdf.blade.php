@@ -61,6 +61,11 @@
         .hide{
             color: #fff;
         }
+        .her{
+            text-align: center;
+            font-weight: bold;
+            font-family: times;
+        }
     </style>
 
 </head>
@@ -69,11 +74,15 @@
 
 
 <!-- Page Content -->
-<div class="container"  style="margin-top: 30px">
+<div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
 
-
+    <div class="her">
+        <p>Міністерство освіти та науки України <br>
+        Одеська національна академія зв'язку ім. О.С. Попова <br>
+        Розрахунок чисельності професорско-викладацького складу</p>
+    </div>
 
     <table  class="table table-bordered">
         <thead>

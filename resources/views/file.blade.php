@@ -5,8 +5,14 @@
         border: 1px solid #000000;
         text-align: center;
         padding: 1px;
+        font-family: "Times New Roman";
+        vertical-align: middle;
 
     }
+    thead td, .row td{
+        font-weight: bold;
+    }
+
 
 
 </style>
@@ -17,41 +23,41 @@
 <table  class="table table-bordered">
     <thead>
     <tr>
-        <td rowspan="2" width="7">№<br>п/п</td>
-        <td rowspan="2" width="40">Форма навчання</td>
+        <td rowspan="2" width="7">№</td>
+        <td rowspan="2" width="60">Форма навчання Факультет</td>
         <td colspan="2">Контингент</td>
-        <td rowspan="2" width="10">Норматив</td>
+        <td rowspan="2" width="12">Норматив</td>
         <td colspan="2">Кількість ставок</td>
-        <td></td>
+        <td width="1"></td>
         <td colspan="2">Контингент</td>
-        <td rowspan="2" width="10">Норматив</td>
+        <td rowspan="2" width="12">Норматив</td>
         <td colspan="2">Кількість ставок</td>
         <td colspan="3">Всього ставок пвп</td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td>б</td>
-        <td>к</td>
+        <td>Б</td>
+        <td>К</td>
         <td></td>
-        <td>б</td>
-        <td>к</td>
+        <td>Б</td>
+        <td>К</td>
         <td></td>
-        <td>б</td>
-        <td>к</td>
+        <td>Б</td>
+        <td>К</td>
         <td></td>
-        <td>б</td>
-        <td>к</td>
-        <td>б</td>
-        <td>к</td>
-        <td>б+к</td>
+        <td>Б</td>
+        <td>К</td>
+        <td>Б</td>
+        <td>К</td>
+        <td>Б+К</td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td colspan="5">денна форма навчання</td>
+        <td colspan="5">Денна форма навчання</td>
         <td></td>
-        <td colspan="5">заочна форма навчання</td>
+        <td colspan="5">Заочна форма навчання</td>
         <td></td>
         <td></td>
         <td></td>
@@ -59,7 +65,7 @@
     </thead>
     <tbody>
     @forelse($subject as $s)
-        <tr>
+        <tr class="row">
             <td>{{$subjectRows[$s]['num']}}</td>
             <td>{{$subjectRows[$s]['name']}}</td>
             <td>{{$subjectRows[$s]['freeD']}}</td>
@@ -100,7 +106,7 @@
     @empty
     @endforelse
 
-    <tr>
+    <tr class="row">
         <td></td>
         <td>Всього по формі навчання</td>
         <td>{{$all['freeD']}}</td>
@@ -141,7 +147,7 @@
     @endforeach
 
     @forelse($aspRow as $s)
-        <tr>
+        <tr class="row">
             <td>{{$s['num']}}</td>
             <td>{{$s['name']}}</td>
             <td>{{$s['freeD']}}</td>
@@ -160,7 +166,7 @@
             <td>{{round($s['all'],2)}}</td>
         </tr>
         @foreach($tableAsp as $row)
-            <tr>
+            <tr class="row">
                 <td></td>
                 <td>{{$row['qualification']}}</td>
                 <td>{{$row['freeD']}}</td>
@@ -183,7 +189,7 @@
     @endforelse
 
     @if(!empty($docRow))
-        <tr>
+        <tr class="row">
             <td>{{$docRow['num']}}</td>
             <td>{{$docRow['qualification']}}</td>
             <td>{{$docRow['freeD']}}</td>
@@ -203,7 +209,7 @@
         </tr>
     @endif
 
-    <tr>
+    <tr class="row">
         <td></td>
         <td>ВСЬОГО</td>
         <td></td>
