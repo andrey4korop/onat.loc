@@ -32,21 +32,23 @@
     <style>
         aside{
             position: fixed;
-            bottom: 10px;
+            top: 10px;
             right: 10px;
-            z-index: 101;
+            z-index: 1050;
             width: 300px;
         }
         #help{
             display: none;
-              opacity: 0.7; 
+              opacity: 0.7;
+            margin-top: 20px;
+
         }
         #help_button{
             width: 300px;
         }
         #send{
                 margin-bottom: 10px;
-    margin-top: 10px;
+                margin-top: 10px;
         }
         textarea{width:300px;}
         
@@ -80,13 +82,14 @@
 @yield('content')
 <!-- /.container -->
 <aside>
+    <button id="help_button" class="btn btn-primary" type="button">Повідомити про помилку!</button>
     <form id="help" action="{{route('send_help')}}" method="POST">
         {{ csrf_field() }}
         <textarea name="text"  rows="10"></textarea>
         <button id="send" class="btn btn-primary" type="button">Відправити</button>
     </form>
 <div id="res"></div>
-    <button id="help_button" class="btn btn-primary" type="button">Повідомити про помилку!</button>
+
 </aside>
 <!-- jQuery -->
 <script src="/js/jquery.js"></script>

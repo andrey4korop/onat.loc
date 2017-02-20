@@ -235,6 +235,108 @@
             </tr>
         @endforeach
 
+        @if(!empty($subjectInozem))
+            <tr class="rowBolid">
+                <td></td>
+                <td>Іноземці</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            @forelse($subjectInozem as $s)
+                <tr class="rowBolid">
+                    <td>{{$subjectInozemRows[$s]['num']}}</td>
+                    <td>{{$subjectInozemRows[$s]['name']}}</td>
+                    <td>{{$subjectInozemRows[$s]['freeD']}}</td>
+                    <td>{{$subjectInozemRows[$s]['payD']}}</td>
+                    <td></td>
+                    <td>{{round($subjectInozemRows[$s]['stavkaFD'],2)}}</td>
+                    <td>{{round($subjectInozemRows[$s]['stavkaPD'],2)}}</td>
+                    <td></td>
+                    <td>{{$subjectInozemRows[$s]['freeZ']}}</td>
+                    <td>{{$subjectInozemRows[$s]['payZ']}}</td>
+                    <td></td>
+                    <td>{{round($subjectInozemRows[$s]['stavkaFZ'],2)}}</td>
+                    <td>{{round($subjectInozemRows[$s]['stavkaPZ'],2)}}</td>
+                    <td>{{round($subjectInozemRows[$s]['allF'],2)}}</td>
+                    <td>{{round($subjectInozemRows[$s]['allP'],2)}}</td>
+                    <td>{{round($subjectInozemRows[$s]['all'],2)}}</td>
+                </tr>
+                @forelse($inozem[$s] as $row)
+                    <tr>
+                        <td></td>
+                        <td>{{$row['qualification']}}</td>
+                        <td>{{$row['freeD']}}</td>
+                        <td>{{$row['payD']}}</td>
+                        <td>{{$row['normD']}}</td>
+                        <td>{{round($row['stavkaFD'],2)}}</td>
+                        <td>{{round($row['stavkaPD'],2)}}</td>
+                        <td></td>
+                        <td>{{$row['freeZ']}}</td>
+                        <td>{{$row['payZ']}}</td>
+                        <td>{{$row['normZ']}}</td>
+                        <td>{{round($row['stavkaFZ'],2)}}</td>
+                        <td>{{round($row['stavkaPZ'],2)}}</td>
+                        <td>{{round($row['allF'],2)}}</td>
+                        <td>{{round($row['allP'],2)}}</td>
+                        <td>{{round($row['all'],2)}}</td>
+                    </tr>
+                @empty
+                @endforelse
+            @empty
+            @endforelse
+            <tr class="rowBolid">
+                <td></td>
+                <td>Всього по формі навчання</td>
+                <td>{{$allInozem['freeD']}}</td>
+                <td>{{$allInozem['payD']}}</td>
+                <td></td>
+                <td>{{round($allInozem['stavkaFD'],2)}}</td>
+                <td>{{round($allInozem['stavkaPD'],2)}}</td>
+                <td></td>
+                <td>{{$allInozem['freeZ']}}</td>
+                <td>{{$allInozem['payZ']}}</td>
+                <td></td>
+                <td>{{round($allInozem['stavkaFZ'],2)}}</td>
+                <td>{{round($allInozem['stavkaPZ'],2)}}</td>
+                <td>{{round($allInozem['allF'],2)}}</td>
+                <td>{{round($allInozem['allP'],2)}}</td>
+                <td>{{round($allInozem['all'],2)}}</td>
+            </tr>
+
+            @foreach($allInozemSubject as $key => $row)
+                <tr>
+                    <td></td>
+                    <td>{{$key}}</td>
+                    <td>{{$row['freeD']}}</td>
+                    <td>{{$row['payD']}}</td>
+                    <td></td>
+                    <td>{{round($row['stavkaFD'],2)}}</td>
+                    <td>{{round($row['stavkaPD'],2)}}</td>
+                    <td></td>
+                    <td>{{$row['freeZ']}}</td>
+                    <td>{{$row['payZ']}}</td>
+                    <td></td>
+                    <td>{{round($row['stavkaFZ'],2)}}</td>
+                    <td>{{round($row['stavkaPZ'],2)}}</td>
+                    <td>{{round($row['allF'],2)}}</td>
+                    <td>{{round($row['allP'],2)}}</td>
+                    <td>{{round($row['all'],2)}}</td>
+                </tr>
+            @endforeach
+        @endif
+
         @forelse($aspRow as $s)
             <tr class="rowBolid">
                 <td>{{$s['num']}}</td>

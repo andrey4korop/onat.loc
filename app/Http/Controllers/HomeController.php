@@ -169,7 +169,9 @@ class HomeController extends Controller
         $subjects=Subject::with('norm')->get();
 
         $subject=$request->input('subject');
+        $subjectInozem=$request->input('subjectInozem');
         $table=$request->input('table');
+        $inozem=$request->input('inozem');
         $asp=$request->input('other');
         $doc=$request->input('doctor');
 
@@ -181,10 +183,12 @@ class HomeController extends Controller
 
 
         $subjectRows=[];
+        $subjectInozemRows=[];
         $aspRow=[];
         $tableAsp=[];
         $docRow=[];
         $allSubject=[];
+        $allInozemSubject=[];
 
         $all=[];
         $all['freeD']=0;
@@ -198,6 +202,19 @@ class HomeController extends Controller
         $all['allF']=0;
         $all['allP']=0;
         $all['all']=0;
+
+        $allInozem=[];
+        $allInozem['freeD']=0;
+        $allInozem['payD']=0;
+        $allInozem['stavkaFD']=0;
+        $allInozem['stavkaPD']=0;
+        $allInozem['freeZ']=0;
+        $allInozem['payZ']=0;
+        $allInozem['stavkaFZ']=0;
+        $allInozem['stavkaPZ']=0;
+        $allInozem['allF']=0;
+        $allInozem['allP']=0;
+        $allInozem['all']=0;
 
         $superAll=[];
         $superAll['stavkaFD'] = 0;
@@ -221,6 +238,18 @@ class HomeController extends Controller
             $allSubject[$i->name]['allF']=0;
             $allSubject[$i->name]['allP']=0;
             $allSubject[$i->name]['all']=0;
+
+            $allInozemSubject[$i->name]['freeD']=0;
+            $allInozemSubject[$i->name]['payD']=0;
+            $allInozemSubject[$i->name]['freeZ']=0;
+            $allInozemSubject[$i->name]['payZ']=0;
+            $allInozemSubject[$i->name]['stavkaFD']=0;
+            $allInozemSubject[$i->name]['stavkaPD']=0;
+            $allInozemSubject[$i->name]['stavkaFZ']=0;
+            $allInozemSubject[$i->name]['stavkaPZ']=0;
+            $allInozemSubject[$i->name]['allF']=0;
+            $allInozemSubject[$i->name]['allP']=0;
+            $allInozemSubject[$i->name]['all']=0;
         }
 
 
@@ -314,15 +343,116 @@ class HomeController extends Controller
                     $superAll['allF']    +=$all['allF'];
                     $superAll['allP']    +=$all['allP'];
                     $superAll['all']     +=$all['all'];
-;
+
 
                 }
             }
         }
-        
+
+
+
+
+
+        $i=1;
+        if(!empty($subjectInozem)) {
+            foreach ($subjectInozem as $keySub => $s) {
+
+                $subjectInozemRows[$s]['num']   = '2.' . $i++;
+                $subjectInozemRows[$s]['name']  = $subjects->where('id', $s)->first()->subject;
+                $subjectInozemRows[$s]['freeD'] = 0;
+                $subjectInozemRows[$s]['payD']  = 0;
+                $subjectInozemRows[$s]['stavkaFD'] = 0;
+                $subjectInozemRows[$s]['stavkaPD'] = 0;
+                $subjectInozemRows[$s]['freeZ'] = 0;
+                $subjectInozemRows[$s]['payZ']  = 0;
+                $subjectInozemRows[$s]['stavkaFZ'] = 0;
+                $subjectInozemRows[$s]['stavkaPZ'] = 0;
+                $subjectInozemRows[$s]['allF']  = 0;
+                $subjectInozemRows[$s]['allP']  = 0;
+                $subjectInozemRows[$s]['all']   = 0;
+                foreach ($inozem[$s] as $key => $row) {
+
+                    $inozem[$s][$key]['normD']    = $subjects->find($s)->norm->where('name',$inozem[$s][$key]['qualification'])->first()->normD; //Норма пост
+                    $inozem[$s][$key]['normZ']    = $subjects->find($s)->norm->where('name',$inozem[$s][$key]['qualification'])->first()->normZ; //Норма пост
+
+                    $inozem[$s][$key]['stavkaFD'] = $row['freeD'] / $inozem[$s][$key]['normD'];
+                    $inozem[$s][$key]['stavkaPD'] = $row['payD'] / $inozem[$s][$key]['normD'];
+                    $inozem[$s][$key]['stavkaFZ'] = $row['freeZ'] / $inozem[$s][$key]['normZ'];
+                    $inozem[$s][$key]['stavkaPZ'] = $row['payZ'] / $inozem[$s][$key]['normZ'];
+
+                    $inozem[$s][$key]['allF']     = $inozem[$s][$key]['stavkaFD'] + $inozem[$s][$key]['stavkaFZ'];
+                    $inozem[$s][$key]['allP']     = $inozem[$s][$key]['stavkaPD'] + $inozem[$s][$key]['stavkaPZ'];
+                    $inozem[$s][$key]['all']      = $inozem[$s][$key]['allF'] + $inozem[$s][$key]['allP'];
+
+
+                    /**
+                     * строка для ...
+                     */
+                    if($row['qualification']!='магістри VI') {
+                        $subjectInozemRows[$s]['freeD']     += $row['freeD'];
+                        $subjectInozemRows[$s]['payD']      += $row['payD'];
+                        $subjectInozemRows[$s]['stavkaFD']  += $inozem[$s][$key]['stavkaFD'];
+                        $subjectInozemRows[$s]['stavkaPD']  += $inozem[$s][$key]['stavkaPD'];
+                        $subjectInozemRows[$s]['freeZ']     += $row['freeZ'];
+                        $subjectInozemRows[$s]['payZ']      += $row['payZ'];
+                        $subjectInozemRows[$s]['stavkaFZ']  += $inozem[$s][$key]['stavkaFZ'];
+                        $subjectInozemRows[$s]['stavkaPZ']  += $inozem[$s][$key]['stavkaPZ'];
+                        $subjectInozemRows[$s]['allF']      += $inozem[$s][$key]['allF'];
+                        $subjectInozemRows[$s]['allP']      += $inozem[$s][$key]['allP'];
+                        $subjectInozemRows[$s]['all']       += $inozem[$s][$key]['all'];
+                    }
+
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['freeD']  += $row['freeD'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['payD']   += $row['payD'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['freeZ']  += $row['freeZ'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['payZ']   += $row['payZ'];
+
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['stavkaFD']+=$inozem[$s][$key]['stavkaFD'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['stavkaPD']+=$inozem[$s][$key]['stavkaPD'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['stavkaFZ']+=$inozem[$s][$key]['stavkaFZ'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['stavkaPZ']+=$inozem[$s][$key]['stavkaPZ'];
+
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['allF']   += $inozem[$s][$key]['allF'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['allP']   += $inozem[$s][$key]['allP'];
+                    $allInozemSubject[$inozem[$s][$key]['qualification']]['all']    += $inozem[$s][$key]['all'];
+
+                    $allInozem['freeD']     += $row['freeD'];
+                    $allInozem['payD']      += $row['payD'];
+                    $allInozem['freeZ']     += $row['freeZ'];
+                    $allInozem['payZ']      += $row['payZ'];
+                    $allInozem['stavkaFD']  += $inozem[$s][$key]['stavkaFD'];
+                    $allInozem['stavkaPD']  += $inozem[$s][$key]['stavkaPD'];
+                    $allInozem['stavkaFZ']  += $inozem[$s][$key]['stavkaFZ'];
+                    $allInozem['stavkaPZ']  += $inozem[$s][$key]['stavkaPZ'];
+                    $allInozem['allF']      += $inozem[$s][$key]['allF'];
+                    $allInozem['allP']      += $inozem[$s][$key]['allP'];
+                    $allInozem['all']       += $inozem[$s][$key]['all'];
+
+                    $superAll['stavkaFD']+= $all['stavkaFD'];
+                    $superAll['stavkaPD']+= $all['stavkaPD'];
+                    $superAll['stavkaFZ']+= $all['stavkaFZ'];
+                    $superAll['stavkaPZ']+= $all['stavkaPZ'];
+                    $superAll['allF']    += $all['allF'];
+                    $superAll['allP']    += $all['allP'];
+                    $superAll['all']     += $all['all'];
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         if(!empty($asp)) {
             foreach ($asp as $as) {
-                $aspRow['other']['num'] = '2';
+                $aspRow['other']['num'] = '3';
                 $aspRow['other']['name'] = 'Аспірантура';
                 $aspRow['other']['freeD'] = 0;
                 $aspRow['other']['payD'] = 0;
@@ -398,7 +528,7 @@ class HomeController extends Controller
             $docRow['normZ'] = $subjects->where('other','3')->first()->norm->first()->normZ; //Норма пост
 
             $docRow['qualification']= 'Докторнатура';
-            $docRow['num'] = '3';
+            $docRow['num'] = '4';
             $docRow['freeD'] = $doc['freeD'];
             $docRow['payD'] = $doc['payD'];
             $docRow['freeZ'] = $doc['freeZ'];
@@ -431,6 +561,13 @@ class HomeController extends Controller
         $data['subjectRows'] = $subjectRows;
         $data['allSubject'] = $allSubject;
         $data['all'] = $all;
+
+        $data['subjectInozem'] = $subjectInozem;
+        $data['inozem'] = $inozem;
+        $data['subjectInozemRows'] = $subjectInozemRows;
+        $data['allInozemSubject'] = $allInozemSubject;
+        $data['allInozem'] = $allInozem;
+
         $data['aspRow'] = $aspRow;
 
         $data['tableAsp'] = $tableAsp;
