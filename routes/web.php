@@ -39,3 +39,11 @@ Route::post('editnorms','HomeController@savenorm')->name('savenorm');
 Route::post('help','HomeController@help')->name('send_help');
 Route::get('arhive', 'HomeController@arhive')->name('arhive');
 
+/* New section */
+Route::get('spravki', 'SpravkiController@index')->name('spravki');
+Route::get('personal', 'SpravkiController@personal')->name('personal');
+Route::get('students', 'SpravkiController@students')->name('students');
+Route::get('student/{id}', 'SpravkiController@student')->name('student');
+
+Route::post('send_spravka', 'SpravkiController@send')->name('send_spravka');
+

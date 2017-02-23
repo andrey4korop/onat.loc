@@ -9,6 +9,7 @@ return array(
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
     'CreateNormsTable' => $baseDir . '/database/migrations/2017_01_28_210429_create_norms_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreateSpravkisTable' => $baseDir . '/database/migrations/2017_02_20_204827_create_spravkis_table.php',
     'CreateTablesTable' => $baseDir . '/database/migrations/2017_01_29_110145_create_tables_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

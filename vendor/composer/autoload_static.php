@@ -352,6 +352,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'CreateNormsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_28_210429_create_norms_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateSpravkisTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_20_204827_create_spravkis_table.php',
         'CreateTablesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_29_110145_create_tables_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

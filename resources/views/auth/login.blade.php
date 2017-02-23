@@ -96,6 +96,7 @@
                 <span class="icon-bar"></span>
             </button>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-top: 8px">Вхід в систему</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='{{route('spravki')}}'" style="margin-top: 8px">#Spravki#</button>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
 
