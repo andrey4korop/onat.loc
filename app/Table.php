@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Table extends Model
 {
+    use SoftDeletes;
+
     protected $casts = [
         'table' => 'array',
     ];
+    
     protected $dates = ['deleted_at'];
     
 }

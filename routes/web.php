@@ -10,40 +10,82 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
+use Illuminate\Http\Request;
 
 /**
  * Аутеризация, главная страница
  */
 Route::get('/', 'Auth\LoginController@showLoginForm');
-//Route::get('/', 'Auth\LoginController@showLoginForm');
-Route::post('auto', 'FirstController@autorization')->name('auto');
+Route::get('login', function (){
+    return redirect('/');
+});
+Route::post('login', 'Auth\LoginController@login')->name('login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('register', 'Auth\AuthController@postRegister');
 Auth::routes();
 
 
 /**
  * Закрытый раздел
  */
+Route::get('home', ['middleware' => 'auth', function (Request $request){
+    if($request->user()->roles->where('permission', 'Student')->count()){
+        return redirect(route('studentHome'));
+    }
+    if($request->user()->roles->where('permission', 'Administrator')->count()){
 
-Route::get('home', 'HomeController@index')->name('home');
-Route::get('table', 'HomeController@table')->name('table');
-Route::post('table/{id?}', 'HomeController@tableedit')->name('tableedit');
-Route::post('save','HomeController@saveTable')->name('save');
-Route::post('mail/{id?}','HomeController@mail')->name('mail');
-Route::get('excel/{id?}','HomeController@excel')->name('excel');
-Route::get('open/{id}','HomeController@open')->name('open');
-Route::get('pdf/{id?}','HomeController@pdf')->name('pdf');
-Route::post('del/{id?}','HomeController@del')->name('del');
-Route::get('editnorms','HomeController@editnorms')->name('editnorms');
-Route::post('editnorms','HomeController@savenorm')->name('savenorm');
-Route::post('help','HomeController@help')->name('send_help');
-Route::get('arhive', 'HomeController@arhive')->name('arhive');
+    }
+    $roles = $request->user()->roles;
+    $menu = [];
+    foreach ($roles as $role){
 
-/* New section */
-Route::get('spravki', 'SpravkiController@index')->name('spravki');
-Route::get('personal', 'SpravkiController@personal')->name('personal');
-Route::get('students', 'SpravkiController@students')->name('students');
-Route::get('student/{id}', 'SpravkiController@student')->name('student');
+        foreach ($role->leftMenu as $menuForRole){
+            $menu[] = $menuForRole;
+        }
+    }
+    $data['menus'] = $menu;
+    //if($request->user()->roles)
+    return view('main', $data);
+}]);
+/**
+ * Штат
+ */
+Route::group(['prefix' => 'shtat', 'middleware' => 'auth'], function()
+{
+    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('table', 'HomeController@table')->name('table');
+    Route::post('table/{id?}', 'HomeController@tableedit')->name('tableedit');
+    Route::post('save','HomeController@saveTable')->name('save');
+    Route::post('mail/{id?}','HomeController@mail')->name('mail');
+    Route::get('excel/{id?}','HomeController@excel')->name('excel');
+    Route::get('open/{id}','HomeController@open')->name('open');
+    Route::get('pdf/{id?}','HomeController@pdf')->name('pdf');
+    Route::post('del/{id?}','HomeController@del')->name('del');
+    Route::get('editnorms','HomeController@editnorms')->name('editnorms');
+    Route::post('editnorms','HomeController@savenorm')->name('savenorm');
+    Route::post('help','HomeController@help')->name('send_help');
+    Route::get('arhive', 'HomeController@arhive')->name('arhive');
+    Route::get('addSubject', 'HomeController@addSubject')->name('addSubject');
+    Route::get('deleteSubject', 'HomeController@deleteSubject')->name('deleteSubject');
+    Route::post('deleteSubject/{id}', 'HomeController@delSubject')->name('delSubject');
+    Route::post('saveSubject','HomeController@saveSubject')->name('saveSubject');
+});
+/**
+ * Справки
+ */
+Route::group(['prefix' => 'spravki', 'middleware' => 'auth'], function() {
 
-Route::post('send_spravka', 'SpravkiController@send')->name('send_spravka');
+    Route::get('/', 'SpravkiController@personal')->name('spravki');
+    Route::get('/{id}', 'SpravkiController@index')->name('spravka');
+    Route::post('/{id}', 'SpravkiController@setStatus')->name('setStatus');
+    Route::get('students', 'SpravkiController@students')->name('students');
+    Route::get('student/{id}', 'SpravkiController@student')->name('student');
 
+
+});
+Route::group(['prefix' => 'student', 'middleware' => 'auth'],function (){
+    Route::get('/','StudentController@index')->name('studentHome');
+    Route::get('getspravka','StudentController@getSpravka')->name('getSpravka');
+    Route::get('myarhive','StudentController@myArhive')->name('myArhive');
+    Route::post('send_spravka', 'StudentController@send')->name('send_spravka');
+});

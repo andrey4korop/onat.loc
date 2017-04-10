@@ -9,25 +9,20 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
     <title>Система розрахунку чисельності студентів</title>
-
     <!-- Bootstrap Core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="/css/modern-business.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/pushy.css">
     <!-- Custom Fonts -->
     <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 @yield('style')
     <style>
         aside{
@@ -49,9 +44,18 @@
         #send{
                 margin-bottom: 10px;
                 margin-top: 10px;
+            float: right;
         }
         textarea{width:300px;}
-        
+        .container li{
+            display: inline-block;
+        }
+        .horMenu{
+
+            display: none;
+            background: #222;
+        }
+
     </style>
 
 </head>
@@ -67,14 +71,16 @@
         </ul>
     </div>
 </nav>
+
+
 <!— Navigation —>
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="border-color: #222; ">
     <div class="container">
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <form id="logout-form" action="{{ route('logout')  }}" method="POST">
                 {{ csrf_field() }}
-                <button type="button" class="menu-btn btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">&#9776; Меню</button>
-
+                <button type="button" class="menu-btn btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">&#9776; Головне меню</button>
+                <button type="button" class="btn-hor btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">&#9776; Розрахунок штату</button>
 
                 @yield('header')
 
@@ -84,6 +90,19 @@
         <!— /.navbar-collapse —>
     </div>
     <!— /.container —>
+    <nav class="horMenu">
+        <div class="container">
+            <ul style="padding-left: 0px;">
+                <button type="button" onClick='location.href="{{route('home')}}"'  class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Інструкція</button>
+                <button type="button" onClick='location.href="{{route('arhive')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Архів</button>
+                <button type="button" onClick='location.href="{{route('editnorms')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Змінити норми</button>
+                <button type="button" onClick='location.href="{{route('table')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Почати розрахунок</button>
+                <button type="button" onClick='location.href="{{route('addSubject')}}"' class="btn btn-primary" style="border-bottom-width: 1px;margin-bottom: 10px;margin-top: 10px;">Додати спеціальність</button>
+                <button type="button" onClick='location.href="{{route('deleteSubject')}}"' class="btn btn-primary" style="margin-bottom: 10px;margin-top: 10px;">Видалити спеціальність</button>
+
+            </ul>
+        </div>
+    </nav>
 </nav>
 
 <!-- Page Content -->
@@ -155,6 +174,22 @@
         document.body.appendChild(form);
         form.submit();
     }
+
+    $('body').on('click', '.btn-hor', function () {
+
+
+        if ($('.horMenu').css('display') == 'none')
+        {
+            $('.horMenu').animate({height: 'show'}, 100);
+        }
+        else
+        {
+            $('.horMenu').animate({height: 'hide'}, 100);
+        }
+    });
+
+
+
 </script>
 </body>
 

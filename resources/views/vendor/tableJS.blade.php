@@ -110,6 +110,15 @@
         }
     });
     $('body').on('click', '.removeRowQualification', function () {
+
+        if($(this).parents('tr').prev().hasClass('subject') && ($(this).parents('tr').next().hasClass('subject') || $(this).parents('tr').next().length==0)){
+            $(this).parents('tr').prev().remove();
+        }else if($(this).parents('tr').prev().hasClass('subjectImozem') && ($(this).parents('tr').next().hasClass('subjectImozem') || $(this).parents('tr').next().length==0)){
+            if($(this).parents('tr').prev().prev().hasClass('ino') && $(this).parents('tr').next().length==0){
+                $(this).parents('tr').prev().prev().remove()
+            }
+            $(this).parents('tr').prev().remove();
+        }
         $(this).parents('tr').remove();
     });
 

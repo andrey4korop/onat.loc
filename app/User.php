@@ -32,5 +32,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Table','user_id','id');
     }
 
+    public function spravki()
+    {
+        return $this->hasMany('App\Spravki','id_student','id');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role', 'user_role', 'id_user', 'id_role');
+    }
 
 }

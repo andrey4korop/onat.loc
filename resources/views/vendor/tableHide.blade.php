@@ -51,7 +51,7 @@
         </tr>
         </tbody>
         <tbody class="hideInozem">
-        <tr class="subject">
+        <tr class="subject ino">
             <td><span class="glyphicon glyphicon-plus addRowImozem"></span></td>
             <td>Іноземці</td>
             <td></td>

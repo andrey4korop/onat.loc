@@ -1,29 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-<div>
-    <h1>for personal</h1>
-    <ul>
+@extends('layouts.lay')
+
+@section('header')
+
+@endsection
+
+@section('style')
+    <style>
+td, th{
+text-align: center;
+}
+    </style>
+@endsection
+
+@section('scripts')
+
+@endsection
+
+@section('content')
+    <div class="container"  style="margin-top: 30px">
+    <h2>Таблиця запитів від студентів на отримання справок</h2>
+    <table  class="table table-bordered">
+        <tr>
+            <td>№</td>
+            <th>ПІП</th>
+            <th>Тип справки</th>
+            <th>Вид</th>
+            <th>Статус</th>
+        </tr>
         @forelse($spravki as $spravka)
-            <li>
-                <a href="{{$spravka->id}}">zapros {{$spravka->id}}</a>
-                <p>{{$spravka->id_student}}</p>
-                <p>{{$spravka->id_type}}</p>
-                <p>{{$spravka->is_fast}}</p>
-                <p>{{$spravka->status}}</p>
-            </li>
+            <tr>
+                <td><a href="{{route('spravka',['id' => $spravka->id])}}">Запит {{$spravka->id}}</a></td>
+                <td>{{$spravka->student->name}}</td>
+                <td>{{$spravka->type->type}}</td>
+                <td>{{$spravka->is_fast ? 'Терміново' : 'Не терміново'}}</td>
+                <td>{{$spravka->status}}</td>
+            </tr>
         @empty
-            <li>Empty</li>
+
         @endforelse
 
-    </ul>
-</div>
-</body>
-</html>
+    </table>
+    </div>
+@endsection

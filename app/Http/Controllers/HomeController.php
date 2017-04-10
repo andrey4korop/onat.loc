@@ -17,9 +17,18 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public $data = [];
+    public function __construct(Request $request)
     {
-        $this->middleware('auth');
+        $roles = $request->user()->roles;
+        $menu = [];
+        foreach ($roles as $role){
+
+            foreach ($role->leftMenu as $menuForRole){
+                $menu[] = $menuForRole;
+            }
+        }
+        $this->data['menus'] = $menu;
     }
 
     /**
@@ -29,7 +38,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('home');
+        return view('shtat.home', $this->data);
     }
 
     public function arhive(Request $request)
@@ -37,16 +46,25 @@ class HomeController extends Controller
         $user = $request->user();
         $arhive = $user->table;
         //dump($arhive);
-        $data['arhive'] = $arhive;
-        return view('arhive', $data);
+        $this->data['arhive'] = $arhive;
+        return view('shtat.arhive', $this->data);
     }
     public function open(Request $request){
         $user = $request->user();
         //->table=$data;
 
-        $data = $user->table->find($request->id)->table;
-        $data['id'] = $request->id;
-        return view('tt', $data);
+        $this->data = $user->table->find($request->id)->table;
+        $this->data['id'] = $request->id;
+        $roles = $request->user()->roles;
+        $menu = [];
+        foreach ($roles as $role){
+
+            foreach ($role->leftMenu as $menuForRole){
+                $menu[] = $menuForRole;
+            }
+        }
+        $this->data['menus'] = $menu;
+        return view('shtat.tt', $this->data);
     }
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -54,24 +72,25 @@ class HomeController extends Controller
 
     public function table(Request $request)
     {
-        $subjects=Subject::all()->where('other','');
-        $aspirantura=Subject::all()->where('other','2');
+        $this->data['subjects'] = Subject::all()->where('other','');
+        $this->data['aspirantura'] = Subject::all()->where('other','2');
         // dd($aspirantura);
-        return view('table',['subjects' => $subjects, 'aspirantura' => $aspirantura]);
+
+        return view('shtat.table',$this->data);
     }
     public function tableedit(Request $request){
         $user = $request->user();
         if(isset($request->id)){
-            $data['table'] = $user->table->find($request->id)->table;
+            $this->data['table'] = $user->table->find($request->id)->table;
         }
         else{
-            $data['table'] = $user->table->last()->table;
+            $this->data['table'] = $user->table->last()->table;
         }
-        $data['subjects'] = Subject::all()->where('other','');
-        $data['aspirantura'] = Subject::all()->where('other','2');
-        $data['id'] = $request->id;
+        $this->data['subjects'] = Subject::all()->where('other','');
+        $this->data['aspirantura'] = Subject::all()->where('other','2');
+        $this->data['id'] = $request->id;
         //dump($data);
-        return view('tableedit', $data);
+        return view('shtat.tableedit', $this->data);
     }
 
     public function excel(Request $request, $export = 'brouser'){
@@ -94,7 +113,7 @@ class HomeController extends Controller
             }
             $table = Excel::create($string, function($excel) use ($data){
                 $excel->sheet('New sheet', function($sheet) use ($data) {
-                    $sheet->loadView('file', $data);
+                    $sheet->loadView('shtat.file', $data);
                 });
             });
 
@@ -103,7 +122,7 @@ class HomeController extends Controller
         else{
             $table = Excel::create('Table', function($excel) use ($data){
                 $excel->sheet('New sheet', function($sheet) use ($data) {
-                    $sheet->loadView('file', $data);
+                    $sheet->loadView('shtat.file', $data);
                 });
             });
             $table->export('xls');
@@ -120,7 +139,7 @@ class HomeController extends Controller
         else{
             $data = $user->table->last()->table;
         }
-        $pdf = PDF::loadView('pdf', $data)->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('shtat.pdf', $data)->setPaper('a4', 'landscape');
         if($export == 'file') {
             $chars = 'abdefhiknrstyzABDEFGHKNQRSTYZ23456789';
             $numChars = strlen($chars);
@@ -142,13 +161,13 @@ class HomeController extends Controller
         $subjects=Subject::with('norm')->orderBy('other', 'asc')->get();
 
         foreach ($subjects as $subject) {
-            $data['subjects'][$subject->id] = $subject;
+            $this->data['subjects'][$subject->id] = $subject;
             foreach ($subject->norm as $norm){
-                $data['table'][$norm->id_subject][] = $norm;
+                $this->data['table'][$norm->id_subject][] = $norm;
             }
         }
        // dump($data);
-        return view('editnorm',$data);
+        return view('shtat.editnorm',$this->data);
     }
     public function savenorm(Request $request){
         $table = $request->input('table');
@@ -159,15 +178,16 @@ class HomeController extends Controller
             $new->normZ=$norm['normZ'];
             $new->save();
         }
-        return view('success');
+        return view('shtat.success', $this->data);
 
     }
 
 
     public function saveTable(Request $request)
     {
+        /* достаёмпредмети и нормы к ним */
         $subjects=Subject::with('norm')->get();
-
+        /* берём введённе данные */
         $subject=$request->input('subject');
         $subjectInozem=$request->input('subjectInozem');
         $table=$request->input('table');
@@ -181,7 +201,7 @@ class HomeController extends Controller
             return back();
         }
 
-
+        /* создаём пустые таблицы */
         $subjectRows=[];
         $subjectInozemRows=[];
         $aspRow=[];
@@ -189,7 +209,7 @@ class HomeController extends Controller
         $docRow=[];
         $allSubject=[];
         $allInozemSubject=[];
-
+        /* пустая строка для предмета общая */
         $all=[];
         $all['freeD']=0;
         $all['payD']=0;
@@ -202,7 +222,7 @@ class HomeController extends Controller
         $all['allF']=0;
         $all['allP']=0;
         $all['all']=0;
-
+        /* пустая строка для иностранцов  общая */
         $allInozem=[];
         $allInozem['freeD']=0;
         $allInozem['payD']=0;
@@ -215,7 +235,7 @@ class HomeController extends Controller
         $allInozem['allF']=0;
         $allInozem['allP']=0;
         $allInozem['all']=0;
-
+        /* пустая строка вообще общаяпо всем */
         $superAll=[];
         $superAll['stavkaFD'] = 0;
         $superAll['stavkaPD'] = 0;
@@ -225,7 +245,7 @@ class HomeController extends Controller
         $superAll['allP']     = 0;
         $superAll['all']      = 0;
 
-
+        /* обнуляем все строки по квалификации*/
         foreach($subjects->first()->norm as $i) {
             $allSubject[$i->name]['freeD']=0;
             $allSubject[$i->name]['payD']=0;
@@ -257,9 +277,10 @@ class HomeController extends Controller
 
 
         $i=1;
+        /* проход по предметам */
         if(!empty($subject)) {
             foreach ($subject as $keySub => $s) {
-
+                /* обнулили строку для предмета */
                 $subjectRows[$s]['num'] = '1.' . $i++;
                 $subjectRows[$s]['name'] = $subjects->where('id', $s)->first()->subject;
                 $subjectRows[$s]['freeD'] = 0;
@@ -275,11 +296,7 @@ class HomeController extends Controller
                 $subjectRows[$s]['all'] = 0;
                 foreach ($table[$s] as $key => $row) {
 
-                    /**
-                     * Нужно зделать так чтоб оно бралось с базы данных и сюда вставлялось
-                     * но покашто для примера будет число 10
-                     */
-
+                    /*записуем данные в таблицу  по предмету*/
                     $table[$s][$key]['normD'] = $subjects->find($s)->norm->where('name',$table[$s][$key]['qualification'])->first()->normD; //Норма пост
                     $table[$s][$key]['normZ'] = $subjects->find($s)->norm->where('name',$table[$s][$key]['qualification'])->first()->normZ; //Норма пост
 
@@ -294,7 +311,7 @@ class HomeController extends Controller
 
 
                     /**
-                     * строка для ...
+                     * если магистри 6, то не добавлять их в низу
                      */
                     if($row['qualification']!='магістри VI') {
                         $subjectRows[$s]['freeD'] += $row['freeD'];
@@ -309,7 +326,7 @@ class HomeController extends Controller
                         $subjectRows[$s]['allP'] += $table[$s][$key]['allP'];
                         $subjectRows[$s]['all'] += $table[$s][$key]['all'];
                     }
-
+                    /*ко всем предметам припрлюсовуем  */
                     $allSubject[$table[$s][$key]['qualification']]['freeD']+=$row['freeD'];
                     $allSubject[$table[$s][$key]['qualification']]['payD']+=$row['payD'];
                     $allSubject[$table[$s][$key]['qualification']]['freeZ']+=$row['freeZ'];
@@ -336,13 +353,13 @@ class HomeController extends Controller
                     $all['allP']+=$table[$s][$key]['allP'];
                     $all['all']+=$table[$s][$key]['all'];
 
-                    $superAll['stavkaFD']+=$all['stavkaFD'];
-                    $superAll['stavkaPD']+=$all['stavkaPD'];
-                    $superAll['stavkaFZ']+=$all['stavkaFZ'];
-                    $superAll['stavkaPZ']+=$all['stavkaPZ'];
-                    $superAll['allF']    +=$all['allF'];
-                    $superAll['allP']    +=$all['allP'];
-                    $superAll['all']     +=$all['all'];
+                    $superAll['stavkaFD']+=$table[$s][$key]['stavkaFD'];
+                    $superAll['stavkaPD']+=$table[$s][$key]['stavkaPD'];
+                    $superAll['stavkaFZ']+=$table[$s][$key]['stavkaFZ'];
+                    $superAll['stavkaPZ']+=$table[$s][$key]['stavkaPZ'];
+                    $superAll['allF']    +=$table[$s][$key]['allF'];
+                    $superAll['allP']    +=$table[$s][$key]['allP'];
+                    $superAll['all']     +=$table[$s][$key]['all'];
 
 
                 }
@@ -428,13 +445,13 @@ class HomeController extends Controller
                     $allInozem['allP']      += $inozem[$s][$key]['allP'];
                     $allInozem['all']       += $inozem[$s][$key]['all'];
 
-                    $superAll['stavkaFD']+= $all['stavkaFD'];
-                    $superAll['stavkaPD']+= $all['stavkaPD'];
-                    $superAll['stavkaFZ']+= $all['stavkaFZ'];
-                    $superAll['stavkaPZ']+= $all['stavkaPZ'];
-                    $superAll['allF']    += $all['allF'];
-                    $superAll['allP']    += $all['allP'];
-                    $superAll['all']     += $all['all'];
+                    $superAll['stavkaFD']+= $inozem[$s][$key]['stavkaFD'];
+                    $superAll['stavkaPD']+= $inozem[$s][$key]['stavkaPD'];
+                    $superAll['stavkaFZ']+= $inozem[$s][$key]['stavkaFZ'];
+                    $superAll['stavkaPZ']+= $inozem[$s][$key]['stavkaPZ'];
+                    $superAll['allF']    += $inozem[$s][$key]['allF'];
+                    $superAll['allP']    += $inozem[$s][$key]['allP'];
+                    $superAll['all']     += $inozem[$s][$key]['all'];
                 }
             }
         }
@@ -506,13 +523,13 @@ class HomeController extends Controller
                     $aspRow['other']['allP'] += $tableAsp[$key]['allP'];
                     $aspRow['other']['all'] += $tableAsp[$key]['all'];
 
-                    $superAll['stavkaFD']+=$aspRow['other']['stavkaFD'];
-                    $superAll['stavkaPD']+=$aspRow['other']['stavkaPD'];
-                    $superAll['stavkaFZ']+=$aspRow['other']['stavkaFZ'];
-                    $superAll['stavkaPZ']+=$aspRow['other']['stavkaPZ'];
-                    $superAll['allF']    +=$aspRow['other']['allF'];
-                    $superAll['allP']    +=$aspRow['other']['allP'];
-                    $superAll['all']     +=$aspRow['other']['all'];
+                    $superAll['stavkaFD']+=$row['other']['stavkaFD'];
+                    $superAll['stavkaPD']+=$row['other']['stavkaPD'];
+                    $superAll['stavkaFZ']+=$row['other']['stavkaFZ'];
+                    $superAll['stavkaPZ']+=$row['other']['stavkaPZ'];
+                    $superAll['allF']    +=$row['other']['allF'];
+                    $superAll['allP']    +=$row['other']['allP'];
+                    $superAll['all']     +=$row['other']['all'];
                 }
 
             }
@@ -556,24 +573,24 @@ class HomeController extends Controller
 
 
 
-        $data['subject'] = $subject;
-        $data['table'] = $table;
-        $data['subjectRows'] = $subjectRows;
-        $data['allSubject'] = $allSubject;
-        $data['all'] = $all;
+        $this->data['subject'] = $subject;
+        $this->data['table'] = $table;
+        $this->data['subjectRows'] = $subjectRows;
+        $this->data['allSubject'] = $allSubject;
+        $this->data['all'] = $all;
 
-        $data['subjectInozem'] = $subjectInozem;
-        $data['inozem'] = $inozem;
-        $data['subjectInozemRows'] = $subjectInozemRows;
-        $data['allInozemSubject'] = $allInozemSubject;
-        $data['allInozem'] = $allInozem;
+        $this->data['subjectInozem'] = $subjectInozem;
+        $this->data['inozem'] = $inozem;
+        $this->data['subjectInozemRows'] = $subjectInozemRows;
+        $this->data['allInozemSubject'] = $allInozemSubject;
+        $this->data['allInozem'] = $allInozem;
 
-        $data['aspRow'] = $aspRow;
+        $this->data['aspRow'] = $aspRow;
 
-        $data['tableAsp'] = $tableAsp;
-        $data['docRow'] = $docRow;
+        $this->data['tableAsp'] = $tableAsp;
+        $this->data['docRow'] = $docRow;
 
-        $data['superAll'] = $superAll;
+        $this->data['superAll'] = $superAll;
 
         $user = $request->user();
         //->table=$data;
@@ -585,14 +602,14 @@ class HomeController extends Controller
         }
 
 
-        $tt->table = $data;
+        $tt->table = $this->data;
         $user->table()->save($tt);
 
 
 
 
        // $input['has'] = Request::all();
-        return view('tt',$data);
+        return view('shtat.tt',$this->data);
     }
 
     public function mail(Request $request){
@@ -610,7 +627,7 @@ class HomeController extends Controller
         $filePDF = $this->pdf($request, 'file');
 //dd($file);
 
-        Mail::send("email", $data, function ($message) use ($from, $to, $subject, $fileExcel, $filePDF) {
+        Mail::send("shtat.email", $data, function ($message) use ($from, $to, $subject, $fileExcel, $filePDF) {
             $message->from('andrey999@i.ua', $from );
             $message->to($to);
             $message->subject($subject);
@@ -636,7 +653,7 @@ class HomeController extends Controller
         $to = 'andrey999@i.ua';
         $data['content'] = $request->text;
         $subject= 'ERROR FROM USER'; //$request->input('subject');
-        Mail::send('emailhelp', $data, function ($message) use ($from, $to, $subject) {
+        Mail::send('shtat.emailhelp', $data, function ($message) use ($from, $to, $subject) {
             $message->from('andrey999@i.ua', $from );
             $message->to($to);
             $message->subject($subject);
@@ -656,4 +673,42 @@ class HomeController extends Controller
         return 'ok';
     }
 
+    public function addSubject(){
+        return view('shtat.addSubject',$this->data);
+    }
+    public function saveSubject(Request $request){
+
+        $subject = new Subject();
+        $subject->subject = $request->input('subject');
+        $subject->save();
+        $norms = [
+            new Norm(['name' => 'бакалаври', 'normD' => $request->input('bNormD'), 'normZ' => $request->input('bNormZ') ]),
+            new Norm(['name' => 'спеціалісти', 'normD' => $request->input('sNormD'), 'normZ' => $request->input('sNormZ') ]),
+            new Norm(['name' => 'магістри V', 'normD' => $request->input('mNormD'), 'normZ' => $request->input('mNormZ') ]),
+            new Norm(['name' => 'магістри VI', 'normD' => $request->input('mmNormD'), 'normZ' => $request->input('mmNormZ') ]),
+        ];
+        $subject->norm()->saveMany($norms);
+        $this->data['subject'] = $request->input('subject');
+        return view('shtat.successSubject',$this->data);
+    }
+    public function deleteSubject(Request $request){
+        $subjects=Subject::orderBy('other')->get();
+
+        foreach ($subjects as $subject) {
+            $this->data['subjects'][$subject->id] = $subject;
+
+        }
+        // dump($data);
+        return view('shtat.deleteSubject',$this->data);
+    }
+    public function delSubject(Request $request){
+
+        if(isset($request->id)){
+            Subject::where('id', '=', $request->id)->first()->delete();
+
+            return 'ok';
+        }
+
+
+    }
 }

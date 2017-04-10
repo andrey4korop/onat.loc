@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Role;
 use App\User;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -63,11 +64,15 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'login' => $data['login'],
             'password' => bcrypt($data['password']),
         ]);
+         //$role = Role::find(1);
+         $user->roles()->attach(1);
+
+        return $user;
     }
 }
