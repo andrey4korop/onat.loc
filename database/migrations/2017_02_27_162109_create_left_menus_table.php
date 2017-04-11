@@ -13,7 +13,7 @@ class CreateLeftMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create('left_menus', function (Blueprint $table) {
+        /*Schema::create('left_menus', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_role');
             $table->string('menu');
@@ -21,7 +21,7 @@ class CreateLeftMenusTable extends Migration
 
 
 
-        });
+        });*/
     }
 
     /**

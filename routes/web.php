@@ -89,3 +89,11 @@ Route::group(['prefix' => 'student', 'middleware' => 'auth'],function (){
     Route::get('myarhive','StudentController@myArhive')->name('myArhive');
     Route::post('send_spravka', 'StudentController@send')->name('send_spravka');
 });
+
+Route::group(['prefix' => 'group', 'middleware' => 'auth'],function (){
+    Route::get('/','GroupController@index')->name('group');
+    Route::post('getGroupAjax', 'GroupController@getGroup')->name('getGroupAjax');
+    Route::post('saveGroupAjax', 'GroupController@saveGroup')->name('saveGroupAjax');
+    Route::post('addGroup', 'GroupController@addGroup')->name('newGroup');
+
+});

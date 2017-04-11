@@ -350,10 +350,13 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
 
     public static $classMap = array (
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
+        'CreateGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_10_114158_create_groups_table.php',
+        'CreateLeftMenusTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_27_162109_create_left_menus_table.php',
         'CreateNormsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_28_210429_create_norms_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_23_225536_create_roles_table.php',
         'CreateSpravkisTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_20_204827_create_spravkis_table.php',
+        'CreateStudentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_10_120102_create_students_table.php',
         'CreateTablesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_29_110145_create_tables_table.php',
         'CreateTypeSpravkisTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_24_182543_create_type_spravkis_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
@@ -361,6 +364,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'Group' => __DIR__ . '/../..' . '/database/seeds/Group.php',
         'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
         'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
         'HTML5_Parser' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Parser.php',

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeSpravkisTable extends Migration
+class CreateStudentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateTypeSpravkisTable extends Migration
      */
     public function up()
     {
-        /*Schema::create('type_spravkis', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('type');
-        });*/
+            $table->integer('group_id');
+            $table->string('FIO',255);
+            $table->timestamps();
+            $table->softDeletes();
+        });
     }
 
     /**
@@ -26,6 +29,6 @@ class CreateTypeSpravkisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_spravkis');
+        Schema::dropIfExists('students');
     }
 }

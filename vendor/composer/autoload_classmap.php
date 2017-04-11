@@ -7,10 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
+    'CreateGroupsTable' => $baseDir . '/database/migrations/2017_04_10_114158_create_groups_table.php',
+    'CreateLeftMenusTable' => $baseDir . '/database/migrations/2017_02_27_162109_create_left_menus_table.php',
     'CreateNormsTable' => $baseDir . '/database/migrations/2017_01_28_210429_create_norms_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateRolesTable' => $baseDir . '/database/migrations/2017_02_23_225536_create_roles_table.php',
     'CreateSpravkisTable' => $baseDir . '/database/migrations/2017_02_20_204827_create_spravkis_table.php',
+    'CreateStudentsTable' => $baseDir . '/database/migrations/2017_04_10_120102_create_students_table.php',
     'CreateTablesTable' => $baseDir . '/database/migrations/2017_01_29_110145_create_tables_table.php',
     'CreateTypeSpravkisTable' => $baseDir . '/database/migrations/2017_02_24_182543_create_type_spravkis_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
@@ -18,6 +21,7 @@ return array(
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
+    'Group' => $baseDir . '/database/seeds/Group.php',
     'HTML5_Data' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Data.php',
     'HTML5_InputStream' => $vendorDir . '/dompdf/dompdf/lib/html5lib/InputStream.php',
     'HTML5_Parser' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Parser.php',

@@ -13,11 +13,11 @@ class UserRule extends Migration
      */
     public function up()
     {
-        Schema::create('user_role', function (Blueprint $table) {
+      /*  Schema::create('user_role', function (Blueprint $table) {
             $table->integer('id_user');
             $table->integer('id_role');
 
-        });
+        });*/
     }
 
     /**
