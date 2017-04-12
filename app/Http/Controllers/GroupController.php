@@ -39,7 +39,7 @@ class GroupController extends Controller
             $newStudents[] = new Student(['FIO' => $FIO]);
         }
 
-        $group = Group::where('id', '=', $request->input('id'))->with('students')->get()->first();
+        $group = Group::where('id', '=', $request->input('id'))->with('students.oplata')->get()->first();
         $group->students()->saveMany($newStudents);
         return $this->getGroup($request);
     }

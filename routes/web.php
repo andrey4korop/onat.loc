@@ -97,3 +97,10 @@ Route::group(['prefix' => 'group', 'middleware' => 'auth'],function (){
     Route::post('addGroup', 'GroupController@addGroup')->name('newGroup');
 
 });
+
+Route::group(['prefix' => 'bookkeeping', 'middleware' => 'auth'],function (){
+    Route::get('/','BookkeepingController@index')->name('bookkeeping');
+    Route::post('getGroupBookkeepingAjax', 'BookkeepingController@getGroupBookkeeping')->name('getGroupBookkeepingAjax');
+
+
+});
