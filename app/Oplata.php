@@ -12,6 +12,6 @@ class Oplata extends Model
     protected $table = 'oplata';
 
     public function student(){
-        return $this->belongsTo('App\GStuddent', 'student_id', 'id');
+        return $this->belongsTo('App\Studdent', 'student_id', 'id');
     }
 }

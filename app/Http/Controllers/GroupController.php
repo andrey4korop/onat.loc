@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Group;
 use App\Student;
+use App\Oplata;
 class GroupController extends Controller
 {
     public $data = [];
@@ -24,7 +25,7 @@ class GroupController extends Controller
     public function index(Request $request)
     {
         $this->data['groups'] = Group::all();
-        return view('group.index',$this->data);
+       return view('group.index',$this->data);
     }
     public function getGroup(Request $request)
     {
@@ -38,9 +39,13 @@ class GroupController extends Controller
         foreach ($arr as $FIO){
             $newStudents[] = new Student(['FIO' => $FIO]);
         }
-
-        $group = Group::where('id', '=', $request->input('id'))->with('students.oplata')->get()->first();
+        //$students = Student::has('oplata', '<=', '0')->get();
+        $group = Group::where('id', '=', $request->input('id'))->with('students')->get()->first();
         $group->students()->saveMany($newStudents);
+       /* foreach ($students as $st){
+            $st->oplata()->save( new Oplata());
+        }*/
+
         return $this->getGroup($request);
     }
     public function addGroup(Request $request)

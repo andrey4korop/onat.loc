@@ -7,6 +7,7 @@
         <form action="">
             {{ csrf_field() }}
             <p style="margin-bottom: 20px">
+                Виберіть групу:
                 <select name="id">
                     <option value="" disabled selected>Вибрати групу:</option>
                     @forelse($groups as $group)
@@ -46,18 +47,20 @@
                 data: $('form').serialize(),
                 success: function(data) {
                     b = data;
-                    var table = '<table class="table-bordered"><thead><tr><th>№</th><th>ПІП</th><th>Оплата</th><th>Сума боргу</th><th>Підтвердження від студента</th><th>Коментарій</th></tr></thead><tbody>';
+                    var table = '<table class="table-bordered"><thead><tr><th>№</th><th>ПІП</th><th>Оплата контракту</th><th>Сума боргу</th><th>Підтвердження від студента</th><th>Коментарій від деканату</th><th>Коментарій від студента</th><th>Допуск до сесії</th></tr></thead><tbody>';
                     var obj = $.parseJSON(data);
                     var i = 1;
                     $($.parseJSON(b)[0].students).each(function(){
                         table+=
                             '<tr>' +
                             '<td>'+ i++ +'</td>' +
-                            '<td>'+this.FIO+'</td>' +
-                            '<td>'+ '0' +'</td>' +
-                            '<td>'+ '0'+'</td>' +
-                            '<td>'+ '0'+'</td>' +
-                            '<td>'+ '0' +'</td>' +
+                            '<td>'+ this.FIO +'</td>' +
+                            '<td>'+ this.oplata.status_oplatu +'</td>' +
+                            '<td>'+ (this.oplata.summa_need_oplatu - this.oplata.oplacheno) +'</td>' +
+                            '<td>'+ this.oplata.status_from_student +'</td>' +
+                            '<td>'+ this.oplata.commentary_from_dekanat +'</td>' +
+                            '<td>'+ this.oplata.commentary_from_student +'</td>' +
+                            '<td>'+ this.oplata.dopusk_to_sesion +'</td>' +
                             '</tr>';
                     })
                     obj.forEach(function (student) {

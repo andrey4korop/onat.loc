@@ -5,9 +5,14 @@
     <div class="container xxx" >
         <h4>Cтворення групи і формування списку студентів</h4>
 <form action="">
-    <p class="addGroupToggle">Створення нової групи: <input type="button" value="Додати групу" class="addGroupToggle btn btn-primary" onclick="toggle()"></p>
+    <div class="add_group">
+<span>Назва групи:</span>
+        <input type="text" id="nameGroup" name="nameGroup">
+        <input type="button" class="btn btn-primary" value="Зберегти" onclick="addGroup()">
+    </div>
+    <p class="addGroupToggle">Створити нову группу: <input type="button" value="Додати групу" class="addGroupToggle btn btn-primary" onclick="toggle()"></p>
     {{ csrf_field() }}
-    <p style="margin-bottom: 20px">
+    <p style="margin-bottom: 20px">Додати/переглянути студентів до групи
         <select name="id">
             <option value="" disabled selected>Вибрати групу:</option>
         @forelse($groups as $group)
@@ -16,10 +21,7 @@
         @endforelse
     </select> </p>
 
-    <div class="add_group">
-        <input type="text" id="nameGroup" name="nameGroup">
-        <input type="button" class="btn btn-primary" value="addGroup" onclick="addGroup()">
-    </div>
+
     <table>
 
     </table>
@@ -113,7 +115,7 @@
             $('.button').last().append($('#buttonAdd'));
         }
         if($('#save').length ==0 ){
-            var save = $('<input type="button" class="btn btn-primary" id="save" value="save">')
+            var save = $('<input type="button" class="btn btn-primary" id="save" value="Зберегти">')
             $('table').append(save);
         }
     });
@@ -172,9 +174,11 @@ td.button #buttonAdd{
 }
         .add_group{
             display: none;
+            margin: 1% auto;
+            text-align: center;
         }
         select{
-            width: 25%;
+            width: 10%;
 
         }
         .checkbox{

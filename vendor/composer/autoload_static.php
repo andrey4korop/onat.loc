@@ -94,6 +94,9 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
             'Dotenv\\' => 7,
             'Dompdf\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
+            'Doctrine\\Common\\' => 16,
             'DeepCopy\\' => 9,
         ),
         'C' => 
@@ -262,6 +265,18 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
+        ),
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
@@ -334,9 +349,21 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         ),
         'D' => 
         array (
+            'Doctrine\\DBAL\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/dbal/lib',
+            ),
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',
+            ),
+            'Doctrine\\Common\\Collections\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
             ),
         ),
         'C' => 
@@ -349,17 +376,31 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
     );
 
     public static $classMap = array (
+        'AddColumOplata' => __DIR__ . '/../..' . '/database/migrations/2017_04_13_185123_addColumOplata.php',
+        'AddColumToDayGroupSubjects' => __DIR__ . '/../..' . '/database/migrations/2017_04_20_183305_addColumTo_day_group_subjects.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
+        'CreateDayGroupSubjectsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_15_232409_create_day_group_subjects_table.php',
+        'CreateGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_10_114158_create_groups_table.php',
+        'CreateLeftMenusTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_27_162109_create_left_menus_table.php',
         'CreateNormsTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_28_210429_create_norms_table.php',
         'CreateOplatasTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_084419_create_oplatas_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreatePoseyshaemostsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_15_233050_create_poseyshaemosts_table.php',
+        'CreatePredmetsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_19_184120_create_predmets_table.php',
+        'CreatePrepodsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_20_184341_create_prepods_table.php',
+        'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_23_225536_create_roles_table.php',
+        'CreateSpravkisTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_20_204827_create_spravkis_table.php',
         'CreateStatusOplatusTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_084400_create_status_oplatus_table.php',
+        'CreateStudentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_10_120102_create_students_table.php',
         'CreateTablesTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_29_110145_create_tables_table.php',
+        'CreateTypePoseyshaemostsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_18_180344_create_type_poseyshaemosts_table.php',
+        'CreateTypeSpravkisTable' => __DIR__ . '/../..' . '/database/migrations/2017_02_24_182543_create_type_spravkis_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'Group' => __DIR__ . '/../..' . '/database/seeds/Group.php',
         'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
         'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
         'HTML5_Parser' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Parser.php',
@@ -840,6 +881,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         'PHP_Token_YIELD' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_YIELD_FROM' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PclZip' => __DIR__ . '/..' . '/pclzip/pclzip/pclzip.lib.php',
+        'Role' => __DIR__ . '/../..' . '/database/seeds/Role.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',
@@ -924,6 +966,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
         'UpdateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_01_12_234034_update_users_table.php',
+        'UserRule' => __DIR__ . '/../..' . '/database/migrations/2017_02_23_230419_user_rule.php',
         'norm' => __DIR__ . '/../..' . '/database/seeds/norm.php',
         'subjectTableSeeder' => __DIR__ . '/../..' . '/database/seeds/subjectTableSeeder.php',
     );

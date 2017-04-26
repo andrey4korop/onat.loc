@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Oplata;
+use App\Student;
+
 use Illuminate\Support\ServiceProvider;
 use DB;
 class AppServiceProvider extends ServiceProvider
@@ -17,7 +20,11 @@ class AppServiceProvider extends ServiceProvider
              dump($query->sql, $query->bindings,$query->time);
 
         });*/
-        //
+
+        Student::created(function ($student) {
+            $student->oplata()->save(new Oplata());
+            return true;
+        });
     }
 
     /**

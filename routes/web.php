@@ -104,3 +104,12 @@ Route::group(['prefix' => 'bookkeeping', 'middleware' => 'auth'],function (){
 
 
 });
+Route::group(['prefix' => 'zurnal', 'middleware' => 'auth'],function (){
+    Route::get('/','ZurnalController@index')->name('zurnal');
+    Route::post('/getGroupForZurnal','ZurnalController@getGroup')->name('getGroupForZurnal');
+    Route::post('/pdfZurnal','ZurnalController@pdf')->name('pdfZurnal');
+    Route::post('/saveZurnal','ZurnalController@saveZurnal')->name('saveZurnal');
+
+
+
+});
