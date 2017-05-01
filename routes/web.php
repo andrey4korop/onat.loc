@@ -109,7 +109,10 @@ Route::group(['prefix' => 'zurnal', 'middleware' => 'auth'],function (){
     Route::post('/getGroupForZurnal','ZurnalController@getGroup')->name('getGroupForZurnal');
     Route::post('/pdfZurnal','ZurnalController@pdf')->name('pdfZurnal');
     Route::post('/saveZurnal','ZurnalController@saveZurnal')->name('saveZurnal');
-
-
-
+});
+Route::group(['prefix' => 'poselenie', 'middleware' => 'auth'],function (){
+    Route::get('/','Poselenie@index')->name('poselenie');
+    Route::post('getGroupForZurnal','Poselenie@getGroup')->name('getGroupForPoselenie');
+    Route::post('addGroup', 'Poselenie@addGroup')->name('newGroupForPoselenie');
+    Route::post('saveGroup', 'Poselenie@saveGroup')->name('saveGroupForPoselenie');
 });
