@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddColGroupStudent' => $baseDir . '/database/migrations/2017_05_01_080358_add_col_group_student.php',
     'AddColumOplata' => $baseDir . '/database/migrations/2017_04_13_185123_addColumOplata.php',
     'AddColumToDayGroupSubjects' => $baseDir . '/database/migrations/2017_04_20_183305_addColumTo_day_group_subjects.php',
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
@@ -33,6 +34,7 @@ return array(
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
     'Group' => $baseDir . '/database/seeds/Group.php',
     'GroupStudent' => $baseDir . '/database/migrations/2017_04_29_224412_Group_student.php',
+    'GroupUpdate' => $baseDir . '/database/migrations/2017_05_02_155816_Group_Update.php',
     'HTML5_Data' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Data.php',
     'HTML5_InputStream' => $vendorDir . '/dompdf/dompdf/lib/html5lib/InputStream.php',
     'HTML5_Parser' => $vendorDir . '/dompdf/dompdf/lib/html5lib/Parser.php',

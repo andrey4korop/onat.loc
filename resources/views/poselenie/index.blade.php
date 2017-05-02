@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container xxx" >
-        <h4>Журнал відвідувань студентів</h4>
+        <h4>Формирование списка студетов на поселение</h4>
         <form action="" id="group" class="col-md-6">
             {{ csrf_field() }}
 
@@ -25,25 +25,26 @@
         <form action="" id="groupForPoselenie" class="col-md-6">
             {{ csrf_field() }}
             <p class="addGroupToggle">Створити нову группу: <input type="button" value="Додати групу" class="addGroupToggle btn btn-primary" onclick="toggle()"></p>
+            <p class="add_group" style="margin-bottom: 10px;">
+                <span>Назва групи:</span>
+                <input type="text" id="nameGroup" name="nameGroup">
+                <input type="button" class="btn btn-primary" value="Зберегти" onclick="addGroup()">
+            </p>
             <p style="margin-bottom: 20px">Група:
-                <select name="id" id="ii">
+                <select name="id" id="io">
                     <option value="" disabled selected>Вибрати групу:</option>
                     @forelse($groupsForPoselenie as $group)
                         <option value="{{$group->id}}">{{$group->name}}</option>
                     @empty
                     @endforelse
                 </select> </p>
-            <div class="add_group">
-                <span>Назва групи:</span>
-                <input type="text" id="nameGroup" name="nameGroup">
-                <input type="button" class="btn btn-primary" value="Зберегти" onclick="addGroup()">
-            </div>
+
 
 
             <table>
 
             </table>
-            <input type="button" class="btn btn-primary" value="Зберегти" onclick="saveGroup()">
+            <input type="button" id="ii" class="btn btn-primary" value="Зберегти" onclick="saveGroup()">
 
         </form>
     </div>
@@ -62,17 +63,11 @@
     <script>
 
         var b='';
-
-        function generatorSelects(arr, subject, num , data) {
-            var select='';
-            select += '<select name="ff['+data+'][subject'+num+']">';
-            select += '<option disabled selected> - </option>';
-            arr.forEach(function (predmet) {
-                select +=  '<option '+ (predmet.predmet_name == subject ? 'selected' : '') +'>'+predmet.predmet_name +'</option>'
-            });
-            select += '</select>';
-            return select;
+        function toggle() {
+            $('.addGroupToggle').toggle();
+            $('.add_group').toggle();
         }
+
         function addGroup() {
             if($('input#nameGroup')[0].value != ''){
                 $.ajax({
@@ -93,7 +88,7 @@
                         select+='</select>';
                         $('select#ii').html(select);
                         $('input#nameGroup')[0].value = '';
-                        //toggle();
+                        toggle();
                     },
 
                 });
@@ -126,7 +121,7 @@ function saveGroup() {
                     var i = 1;
 
                     obj[0].students.forEach(function (student) {
-                        table += '<tr><td>' + i++ + '</td><td>' + student.FIO + '<input type="hidden" name="idStudent[]" value="'+student.id+'"></td><td class="add" >+</td></tr>';
+                        table += '<tr><td>' + i++ + '</td><td>' +student.firstName+' '+student.name+' '+student.surname+ '<input type="hidden" name="idStudent[]" value="'+student.id+'"></td><td class="add" >+</td></tr>';
                     });
                     table += '</tbody></table>';
                     $('table#group').html(table);
@@ -145,18 +140,18 @@ function saveGroup() {
                 data: $('#groupForPoselenie').serialize(),
                 success: function (data) {
                     b = data;
-                    var table = '<table><thead><tr><th>ПІП</th></tr><tbody>';
+                    var table = '<table><thead><tr><th>ПІП</th><th></th></tr><tbody>';
 
                     var obj = $.parseJSON(data);
                     var i = 1;
 
                     obj.students.forEach(function (student) {
-                        table += '<tr><td>' + student.FIO + '<input type="hidden" name="idStudent[]" value="'+student.id+'"></td></tr>';
+                        table += '<tr><td>' +student.firstName+' '+student.name+' '+student.surname+ '<input type="hidden" name="idStudent[]" value="'+student.id+'"></td><td class="remove">-</td></tr>';
                     });
                     table += '</tbody></table>';
                     $('#groupForPoselenie table').html(table);
 
-
+                    $('#ii').hide();
 
                 }
 
@@ -164,22 +159,16 @@ function saveGroup() {
         });
 
         $('body').on('click', '.add', function () {
-b=this;
-            $('#groupForPoselenie table').append("<tr><td>"+$(this).prev().html()+"</td></tr>");
+            $('#groupForPoselenie table').append("<tr><td>"+$(this).prev().html()+"</td><td class='remove'>-</td></tr>");
+            $('#ii').show();
 
         });
 
-        function button() {
-            $.ajax({
-                type: 'POST',
-                url: "{{route('saveZurnal')}}",
-                data: $('form').serialize(),
-                success: function (data) {
+        $('body').on('click', '.remove', function () {
+            $(this).parent().remove();
+            $('#ii').show();
+        });
 
-                }
-            });
-            return false;
-        }
 
     </script>
 
@@ -187,7 +176,7 @@ b=this;
 
 @section('style')
     <style>
-        .hide, .hideSubject, .hideRowQualification, .addRowQualification, .addRowImozemQualification{display: none;}
+        .hide, .hideSubject, .hideRowQualification, .addRowQualification, .addRowImozemQualification, .add_group {display: none;}
         table{
             text-align: center;
             /*font-weight: bold;*/
@@ -253,7 +242,8 @@ b=this;
             text-align: center;
         }
         #ii{
-            width: calc(100% - 211px);
+            float: right;
+            display: none;
         }
         input[type="submit"]{
             float: right;

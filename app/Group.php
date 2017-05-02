@@ -16,7 +16,7 @@ class Group extends Model
     protected $hidden = ['days'];
     public function students()
     {
-        return $this->hasMany('App\Student','group_id','id')->orderBy('FIO');
+        return $this->hasMany('App\Student','group_id','id')->orderBy('firstName');
     }
 
     public function days($dayM = null)

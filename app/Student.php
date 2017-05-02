@@ -11,13 +11,16 @@ class Student extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['FIO'];
+    protected $fillable = ['firstName', 'name', 'surname'];
     protected $hidden = ['poseysaemosts'];
 
 
 
     public function group(){
         return $this->belongsTo('App\Group', 'group_id', 'id');
+    }
+    public function groupForPoselenie(){
+        return $this->belongsToMany('App\GroupForPoselenie', 'group_student', 'student_id', 'group_id');
     }
     public function oplata()
     {

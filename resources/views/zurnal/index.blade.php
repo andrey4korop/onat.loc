@@ -145,7 +145,7 @@ var b='';
 
                     table += '</tr><tbody>';
                     obj.students.forEach(function (student) {
-                        table += '<tr><td>' + i++ + '</td><td>' + student.FIO + '</td>';
+                        table += '<tr><td>' + i++ + '</td><td>' +student.firstName+' '+student.name+' '+student.surname+ '</td>';
                         for (var p in student.poseysaemostss) {
                             if (student.poseysaemostss.hasOwnProperty(p)) {
                                 table += '<td>' + $('.hide').clone().children().attr("name", "st[" + student.id + "][" + student.poseysaemostss[p].data + "]" + "[status1]").children(":nth-child(" + student.poseysaemostss[p].status1 + ")").attr("selected", "selected").parent().parent().html() +

@@ -95,6 +95,8 @@ Route::group(['prefix' => 'group', 'middleware' => 'auth'],function (){
     Route::post('getGroupAjax', 'GroupController@getGroup')->name('getGroupAjax');
     Route::post('saveGroupAjax', 'GroupController@saveGroup')->name('saveGroupAjax');
     Route::post('addGroup', 'GroupController@addGroup')->name('newGroup');
+    Route::post('saveStudent', 'GroupController@saveStudent')->name('saveStudent');
+    Route::post('delStudent/{id?}', 'GroupController@delStudent')->name('delStudent');
 
 });
 
@@ -112,7 +114,13 @@ Route::group(['prefix' => 'zurnal', 'middleware' => 'auth'],function (){
 });
 Route::group(['prefix' => 'poselenie', 'middleware' => 'auth'],function (){
     Route::get('/','Poselenie@index')->name('poselenie');
-    Route::post('getGroupForZurnal','Poselenie@getGroup')->name('getGroupForPoselenie');
+    Route::post('getGroup','Poselenie@getGroup')->name('getGroupForPoselenie');
     Route::post('addGroup', 'Poselenie@addGroup')->name('newGroupForPoselenie');
     Route::post('saveGroup', 'Poselenie@saveGroup')->name('saveGroupForPoselenie');
+});
+Route::group(['prefix' => 'poselenie2', 'middleware' => 'auth'],function (){
+    Route::get('/','PoselenieController@index')->name('poselenie2');
+    Route::post('getGroup','PoselenieController@getGroup')->name('getGroupForPoselenie2');
+    //Route::post('addGroup', 'PoselenieController@addGroup')->name('newGroupForPoselenie2');
+    //Route::post('saveGroup', 'PoselenieController@saveGroup')->name('saveGroupForPoselenie2');
 });

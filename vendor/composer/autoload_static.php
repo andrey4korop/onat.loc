@@ -376,6 +376,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
     );
 
     public static $classMap = array (
+        'AddColGroupStudent' => __DIR__ . '/../..' . '/database/migrations/2017_05_01_080358_add_col_group_student.php',
         'AddColumOplata' => __DIR__ . '/../..' . '/database/migrations/2017_04_13_185123_addColumOplata.php',
         'AddColumToDayGroupSubjects' => __DIR__ . '/../..' . '/database/migrations/2017_04_20_183305_addColumTo_day_group_subjects.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
@@ -403,6 +404,7 @@ class ComposerStaticInit2f79873dd44bdfe55367d2b7b18450ae
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'Group' => __DIR__ . '/../..' . '/database/seeds/Group.php',
         'GroupStudent' => __DIR__ . '/../..' . '/database/migrations/2017_04_29_224412_Group_student.php',
+        'GroupUpdate' => __DIR__ . '/../..' . '/database/migrations/2017_05_02_155816_Group_Update.php',
         'HTML5_Data' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Data.php',
         'HTML5_InputStream' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/InputStream.php',
         'HTML5_Parser' => __DIR__ . '/..' . '/dompdf/dompdf/lib/html5lib/Parser.php',

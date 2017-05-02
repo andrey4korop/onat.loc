@@ -10,7 +10,7 @@
         <input type="text" id="nameGroup" name="nameGroup">
         <input type="button" class="btn btn-primary" value="Зберегти" onclick="addGroup()">
     </div>
-    <p class="addGroupToggle">Створити нову группу: <input type="button" value="Додати групу" class="addGroupToggle btn btn-primary" onclick="toggle()"></p>
+
     {{ csrf_field() }}
     <p style="margin-bottom: 20px">Додати/переглянути студентів до групи
         <select name="id">
@@ -33,7 +33,8 @@
 
 
 @section('header')
-
+    <input type="button" value="Створити групу" class="addGroupToggle btn btn-primary" onclick="toggle()">
+    <input type="button" value="Редагувати групу" class="btn btn-primary" onclick="toggle()">
 @endsection
 
 @section('scripts')
@@ -72,51 +73,105 @@
             });
         }
     }
+    var b ="";
     $('body').on('change', 'select', function () {
-        var button = '<input type="button" id="buttonAdd" class="btn btn-primary" value="Додати нового студента">';
+        var button = '<input type="button" id="buttonAdd" class="btn btn-primary" style="margin: 1%;" value="Додати нового студента">';
         $.ajax({
             type: 'POST',
             url: "{{route('getGroupAjax')}}",
             data: $('form').serialize(),
             success: function(data) {
-                var table = '<table><thead><tr><th>№</th><th>ПІП</th><th></th></tr></thead><tbody>';
+                var table = '<table><thead><tr><th title="Порядковий номер">№</th><th title="Прізвище, ім\'я, по-батькові студента">ПІП</th><th title="Редагувати">Р</th><th title="Видалити">В</th></tr></thead><tbody>';
                 var obj = $.parseJSON(data)[0];
+                b=obj;
                 var i=1;
                 obj.students.forEach(function (student) {
-                    table+='<tr><td>'+ i++ +'</td><td>'+student.FIO+'</td><td class="button"></td></tr>'
+                    table+='<tr><td>'+ i +'</td><td>'+student.firstName+' '+student.name+' '+student.surname+'</td><td onclick="edit('+i+', '+student.id+')"><img height="20" src="/img/edituser.png" ></td><td onclick="del('+i+', '+student.id+')"><img height="20" src="/img/removeuser.png" onclick="del('+i+', '+student.id+')"></td></tr>';
+                    i++;
                 });
                 table+='</tbody></table>';
                 $('table').html(table);
-
-                $('.button').last().append(button);
-                if($('#buttonAdd').length==0){
-                    $('table').append(button);
+                if($('#buttonAdd').length==0) {
+                    $('table').after(button);
                 }
             },
-            error:  function(xhr, str){
 
-            }
         });
 
 
 
     });
 
+    function edit(i, id){
+
+        var row = $('<td><input type="hidden" name="id_student" value="'+id+'"></td><td><p><input name="student[firstName]" placeholder="Прізвище" value="'+b.students[i-1].firstName+'"></p><p><input name="student[name]" placeholder="Ім\'я" value="'+b.students[i-1].name+'"></p><p><input name="student[surname]" placeholder="По-батькові" value="'+b.students[i-1].surname+'"></p></td><td><input type="image" height="20" src="/img/Save.png" onclick="sendS(); return false;"></td><td></td>');
+        if($('input[name^=student]').length==0) {
+            $($('table tbody').children()[i - 1]).html(row);
+        }
+    };
+
+    function del(i, id){
+        $.ajax({
+            type: 'POST',
+            url: "{{route('delStudent')}}/"+id,
+            data: $('form').serialize(),
+            success: function (data) {
+                var table = '<table><thead><tr><th title="Порядковий номер">№</th><th title="Прізвище, ім\'я, по-батькові студента">ПІП</th><th title="Редагувати">Р</th><th title="Видалити">В</th></tr></thead><tbody>';
+                var obj = $.parseJSON(data)[0];
+                var i=1;
+                b=obj;
+                obj.students.forEach(function (student) {
+                    table+='<tr><td>'+ i +'</td><td>'+student.firstName+' '+student.name+' '+student.surname+'</td><td onclick="edit('+i+', '+student.id+')"><img height="20" src="/img/edituser.png" ></td><td onclick="del('+i+', '+student.id+')"><img height="20" src="/img/removeuser.png" onclick="del('+i+', '+student.id+')"></td></tr>';
+                    i++;
+                });
+                table += '</tbody></table>';
+                $('table').html(table);
+
+            }
+
+        });
+
+    };
+
+    function sendS(){
+        $.ajax({
+            type: 'POST',
+            url: "{{route('saveStudent')}}",
+            data: $('form').serialize(),
+            success: function (data) {
+                var table = '<table><thead><tr><th title="Порядковий номер">№</th><th title="Прізвище, ім\'я, по-батькові студента">ПІП</th><th title="Редагувати">Р</th><th title="Видалити">В</th></tr></thead><tbody>';
+                var obj = $.parseJSON(data)[0];
+                var i=1;
+                b=obj;
+                obj.students.forEach(function (student) {
+                    table+='<tr><td>'+ i +'</td><td>'+student.firstName+' '+student.name+' '+student.surname+'</td><td onclick="edit('+i+', '+student.id+')"><img height="20" src="/img/edituser.png" ></td><td onclick="del('+i+', '+student.id+')"><img height="20" src="/img/removeuser.png" onclick="del('+i+', '+student.id+')"></td></tr>';
+                    i++;
+                });
+                table += '</tbody></table>';
+                $('table').html(table);
+
+            }
+
+        });
+        return false;
+    };
+var w=1;
     $('body').on('click', '#buttonAdd', function () {
         var error = false;
-        $('input[name="FIO[]"]').each(function (){
+        $('input[name^="FIO"]').each(function (){
             if (this.value == '') {
                 error = true;
             }
         });
         if (!error) {
-            var row = $('<tr><td></td><td><input name="FIO[]"></td><td class="button"></td></tr>')
+            var row = $('<tr style="background-color: beige;"><td></td><td><p><input name="FIO['+w+'][firstName]" placeholder="Прізвище"></p><p><input name="FIO['+w+'][name]" placeholder="Ім\'я"></p><p><input name="FIO['+w+'][surname]" placeholder="По-батькові"></p></td><td></td><td></td></tr>')
             $('table').append(row);
-            $('.button').last().append($('#buttonAdd'));
+            w++;
+
         }
         if($('#save').length ==0 ){
-            var save = $('<input type="button" class="btn btn-primary" id="save" value="Зберегти">')
-            $('table').append(save);
+            var save = $('<input type="button" class="btn btn-primary" id="save" style="margin: 1%;" value="Зберегти">')
+            $('table').after(save);
         }
     });
     $('body').on('click', '#save', function () {
@@ -126,20 +181,19 @@
                 url: "{{route('saveGroupAjax')}}",
                 data: $('form').serialize(),
                 success: function (data) {
-                    var table = '<table><thead><tr><th>№</th><th>ПІП</th><th></th></tr></thead><tbody>';
+                    var table = '<table><thead><tr><th title="Порядковий номер">№</th><th title="Прізвище, ім\'я, по-батькові студента">ПІП</th><th title="Редагувати">Р</th><th title="Видалити">В</th></tr></thead><tbody>';
                     var obj = $.parseJSON(data)[0];
+                    b=obj;
                     var i=1;
                     obj.students.forEach(function (student) {
-                        table+='<tr><td>'+ i++ +'</td><td>'+student.FIO+'</td><td class="button"></td></tr>'
+                        table+='<tr><td>'+ i +'</td><td>'+student.firstName+' '+student.name+' '+student.surname+'</td><td onclick="edit('+i+', '+student.id+')"><img height="20" src="/img/edituser.png" ></td><td onclick="del('+i+', '+student.id+')"><img height="20" src="/img/removeuser.png" onclick="del('+i+', '+student.id+')"></td></tr>';
+                        i++;
                     });
                     table += '</tbody></table>';
                     $('table').html(table);
-                    var button = '<input type="button" class="btn btn-primary" id="buttonAdd" value="Додати нового студента">';
-                    $('.button').last().append(button);
-                },
-                error: function (xhr, str) {
 
-                }
+                },
+
             });
 
     });
@@ -219,6 +273,8 @@ td.button #buttonAdd{
         input[type="submit"]{
             float: right;
         }
-
+        .xxx form{
+            text-align: center;
+        }
     </style>
 @endsection

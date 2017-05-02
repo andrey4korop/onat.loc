@@ -37,7 +37,7 @@ class GroupController extends Controller
         $arr = $request->input('FIO');
         $newStudents = [];
         foreach ($arr as $FIO){
-            $newStudents[] = new Student(['FIO' => $FIO]);
+            $newStudents[] = new Student(['firstName' => $FIO['firstName'], 'name' => $FIO['name'], 'surname' => $FIO['surname']]);
         }
         //$students = Student::has('oplata', '<=', '0')->get();
         $group = Group::where('id', '=', $request->input('id'))->with('students')->get()->first();
@@ -53,5 +53,21 @@ class GroupController extends Controller
         $group = new Group(['group_name' => $request->input('nameGroup')]);
         $group->save();
         return Group::all()->toJson();
+    }
+    public function saveStudent(Request $request){
+        $student = Student::find($request->input('id_student'));
+        $arr = $request->input('student');
+        $student->firstName = $arr['firstName'];
+        $student->name = $arr['name'];
+        $student->surname = $arr['surname'];
+        $student->save();
+        return $this->getGroup($request);
+    }
+    public function delStudent(Request $request){
+        $student = Student::find($request->route('id'));
+        if($student!=null){
+                $student->delete();
+        }
+        return $this->getGroup($request);
     }
 }

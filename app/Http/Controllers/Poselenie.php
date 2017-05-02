@@ -45,7 +45,7 @@ class Poselenie extends Controller
 
 
         $group = GroupForPoselenie::where('id', '=', $request->input('id'))->with('students')->get()->first();
-        
+
         $group->students()->sync($arr);
 
         return $this->getGroup($request);
